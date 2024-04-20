@@ -144,18 +144,19 @@ const styles = StyleSheet.create({
     friendProfile: {
       width: screenWidth * 0.20,
       height: screenWidth * 0.20,
-      left: 20,
+      right:0,
     },
     friendName: {
       color: "#465306",
-      left: 40,
+      left: 0,
       top: 10,
+      textAlign: 'center',
     },
     friendInfo: {
       backgroundColor: '#D2DFAF',
       width: screenWidth * 0.58,
       height: screenHeight * 0.12,
-      left: 50,
+      left: screenWidth * 0.12,
       borderRadius: 20,
       alignItems: "center",
       justifyContent: "center",
