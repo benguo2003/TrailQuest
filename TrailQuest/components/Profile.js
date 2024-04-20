@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
       color: '#465306',
       fontSize: 50,
       textAlign: 'center',
-      paddingLeft: screenWidth * 0.012, // Same width as the logoImage
+      paddingLeft: screenWidth * 0.12, // Same width as the logoImage
     },
 });
 
