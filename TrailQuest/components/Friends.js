@@ -33,24 +33,10 @@ function FriendsScreen() {
         </TouchableOpacity>
       </View>
       <View style={styles.main}>
-        <View style={styles.searchBox}>
-          <TextInput style={styles.input} placeholder="Search for a trail..." />
-        </View>
-        <AwesomeButton
-          type="primary"
-          onPress={() => navigation.navigate('Start')}
-          width={200} // Adjust as needed
-          height={50} // Adjust as needed
-          textSize={18} // Adjust as needed
-          backgroundColor="#4CAF50"
-          backgroundDarker="#388E3C"
-          backgroundShadow="#2E7D32"
-          textColor="#FFFFFF"
-          springRelease
-
-        >
-          See Trail Map
-        </AwesomeButton>
+       <Image source={require('../assets/profileIcon.png')} style={styles.friendProfile1} />
+       <Image source={require('../assets/profileIcon.png')} style={styles.friendProfile2} />
+       <Image source={require('../assets/profileIcon.png')} style={styles.friendProfile3} />
+       <Image source={require('../assets/profileIcon.png')} style={styles.friendProfile4} />
       </View>
     </View>
   );
@@ -112,6 +98,30 @@ const styles = StyleSheet.create({
       fontSize: 45,
       textAlign: 'center',
       paddingLeft: screenWidth * 0.12, // Same width as the logoImage
+    },
+    friendProfile1: {
+      width: 90,
+      height: 90,
+      top: 30,
+      left: 20,
+    },
+    friendProfile2: {
+      width: 90,
+      height: 90,
+      top: 70,
+      left: 20,
+    },
+    friendProfile3: {
+      width: 90,
+      height: 90,
+      top: 110,
+      left: 20,
+    },
+    friendProfile4: {
+      width: 90,
+      height: 90,
+      top: 150,
+      left: 20,
     },
 });
 
