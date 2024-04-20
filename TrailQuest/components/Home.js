@@ -1,6 +1,9 @@
 import React from 'react';
-import { View, StatusBar, Image, TouchableOpacity, Text, StyleSheet, TextInput } from 'react-native';
+import { View, StatusBar, Image, TouchableOpacity, Text, StyleSheet, TextInput, Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+
+const screenWidth = Dimensions.get('window').width;
+const screenHeight = Dimensions.get('window').height;
 
 function Home() {
   const navigation = useNavigation();
@@ -10,8 +13,8 @@ function Home() {
       <StatusBar barStyle="dark-content" />
       <View style={styles.header}>
         <View style={styles.logoContainer}>
+        <Image source={require('../assets/trailQuestWords.png')} style={styles.titleImage} />
           <Image source={require('../assets/trailQuestCompass.png')} style={styles.logoImage} /> 
-          <Image source={require('../assets/trailQuestWords.png')} style={styles.titleImage} />
         </View>
       </View>
       <View style={styles.nav}>
@@ -46,7 +49,6 @@ const styles = StyleSheet.create({
     },
     header: {
       backgroundColor: '#F7FEDB',
-      padding: 8.5,
       alignItems: 'center',
     },
     headerText: {
@@ -81,20 +83,19 @@ const styles = StyleSheet.create({
       flexDirection: 'row',
       justifyContent: 'center',
       alignItems: 'center',
-      padding: 15,
+      padding: screenHeight * 0.026,
     },
     logoImage: {
-      width: 18, // or the width you want
-      height: 18, // or the height you want
-      position: 'absolute',
-      left: 243,
-      top: 8,
+      width: screenWidth * 0.045,
+      height: screenHeight * 0.045,
       resizeMode: 'contain',
+      marginLeft: screenWidth * 0.009, // Same width as the logoImage
+      top: -17
     },
     titleImage: {
-      width: 225, // or the width you want
+      width: 250, // or the width you want
       height: 50,
-      resizeMode: 'contain',
+      alignItems: 'center',
     },
 });
 

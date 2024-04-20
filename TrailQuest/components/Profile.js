@@ -1,7 +1,10 @@
 import React from 'react';
-import { View, StatusBar, Image, TouchableOpacity, Text, StyleSheet, TextInput } from 'react-native';
+import { View, StatusBar, Image, TouchableOpacity, Text, StyleSheet, TextInput, Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import AwesomeButton from "react-native-really-awesome-button";
+
+const screenWidth = Dimensions.get('window').width;
+const screenHeight = Dimensions.get('window').height;
 
 function ProfileScreen() {
   const navigation = useNavigation();
@@ -11,8 +14,8 @@ function ProfileScreen() {
       <StatusBar barStyle="dark-content" />
       <View style={styles.header}>
         <View style={styles.logoContainer}>
-          <Image source={require('../assets/trailQuestCompass.png')} style={styles.logoImage} /> 
           <Text style={styles.logoText}>Profile</Text>
+          <Image source={require('../assets/trailQuestCompass.png')} style={styles.logoImage} /> 
         </View>
       </View>
       <View style={styles.nav}>
@@ -95,21 +98,20 @@ const styles = StyleSheet.create({
       flexDirection: 'row',
       justifyContent: 'center',
       alignItems: 'center',
-      padding: 15,
+      padding: screenHeight * 0.02,
     },
     logoImage: {
-      width: 18, // or the width you want
-      height: 18, // or the height you want
-      position: 'absolute',
-      left: 150,
-      top: 25,
+      width: screenWidth * 0.045,
+      height: screenHeight * 0.045,
       resizeMode: 'contain',
+      marginRight: screenWidth * 0.07, // Same width as the logoImage
+      top: -12
     },
     logoText: {
       color: '#465306',
       fontSize: 50,
-      marginLeft: 0,
-      top: 0
+      textAlign: 'center',
+      paddingLeft: screenWidth * 0.12, // Same width as the logoImage
     },
 });
 
