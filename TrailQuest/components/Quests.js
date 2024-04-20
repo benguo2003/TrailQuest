@@ -48,11 +48,22 @@ function QuestsScreen() {
           backgroundShadow="#2E7D32"
           textColor="#FFFFFF"
           springRelease
-
         >
           See Trail Map
         </AwesomeButton>
+        <View style={styles.buttonContainer}>
+          <AwesomeButton
+            width={60}
+            height={60}
+            borderRadius={30}
+            backgroundColor="#FF6347"
+            onPress={() => console.log('Button pressed')}
+          >
+            <Text style={{ color: 'white' }}>+</Text>
+          </AwesomeButton>
+        </View>
       </View>
+      
     </View>
   );
 }
@@ -114,6 +125,11 @@ const styles = StyleSheet.create({
       fontSize: 45,
       textAlign: 'center',
       paddingLeft: screenWidth * 0.12, // Same width as the logoImage
+    },
+    buttonContainer: {
+      position: 'absolute',
+      bottom: 100,
+      right: 20,
     },
 });
 
