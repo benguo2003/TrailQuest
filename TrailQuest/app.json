@@ -5,12 +5,22 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "userInterfaceStyle": "light",
+    "android": {
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyCZQu5EXaVbKKEDTIUV3QQ89p3hNzogLLU"
+        }
+      }
+    },
+    "ios": {
+      "config": {
+        "googleMapsApiKey": "AIzaSyCZQu5EXaVbKKEDTIUV3QQ89p3hNzogLLU"
+      },
+      "supportsTablet": true
+    },
     "assetBundlePatterns": [
       "**/*"
     ],
-    "ios": {
-      "supportsTablet": true
-    },
     "web": {
       "favicon": "./assets/favicon.png"
     }
