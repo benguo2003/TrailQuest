@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
       width: 18, // or the width you want
       height: 18, // or the height you want
       position: 'absolute',
-      left: 185,
+      left: 170,
       top: 25,
       resizeMode: 'contain',
     },
