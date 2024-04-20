@@ -15,17 +15,17 @@ function Home() {
         </View>
       </View>
       <View style={styles.nav}>
-        <TouchableOpacity onPress={() => navigation.navigate('Temp')}>
-          <Text style={styles.navItem}>Temp</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Friends')}>
-          <Text style={styles.navItem}>Friends</Text>
+        <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+          <Text style={styles.navItem}>Home</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('Quests')}>
           <Text style={styles.navItem}>Quests</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
           <Text style={styles.navItem}>Profile</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('Friends')}>
+          <Text style={styles.navItem}>Friends</Text>
         </TouchableOpacity>
       </View>
       <View style={styles.main}>
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
     container: {
       flex: 1,
       paddingTop: 50,
-      backgroundColor: '#F7FEDB', // This sets the background color of the entire app
+      backgroundColor: '#F7FEDB',
     },
     header: {
       backgroundColor: '#F7FEDB',
