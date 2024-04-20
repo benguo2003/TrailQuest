@@ -94,8 +94,8 @@ const styles = StyleSheet.create({
       top: -17
     },
     titleImage: {
-      width: 250, // or the width you want
-      height: 50,
+      width: screenWidth * 0.62,
+      aspectRatio: 494 / 101,
       alignItems: 'center',
     },
 });
