@@ -1,12 +1,19 @@
 import React from 'react';
-import { View, Text, TextInput, StyleSheet, StatusBar } from 'react-native';
+import { View, Text, Image, StatusBar, TextInput, StyleSheet } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import SignIn from './SignIn';
+const Stack = createStackNavigator();
 
-export default function App() {
+function HomeScreen() {
   return (
     <View style={styles.container}>
-      <StatusBar barStyle="light-content" />
+      <StatusBar barStyle="dark-content" />
       <View style={styles.header}>
-        <Text style={styles.headerText}>TrailQuest</Text>
+        <View style={styles.logoContainer}>
+          <Image source={require('./assets/trailQuestCompass.png')} style={styles.logoImage} /> 
+          <Image source={require('./assets/trailQuestWords.png')} style={styles.titleImage} />
+        </View>
       </View>
       <View style={styles.nav}>
         <Text style={styles.navItem}>Home</Text>
@@ -18,20 +25,32 @@ export default function App() {
         <View style={styles.searchBox}>
           <TextInput style={styles.input} placeholder="Search for a trail..." />
         </View>
-        {/* Add more trail boxes as needed */}
+        {/* Rest of your code */}
       </View>
     </View>
   );
+}
+
+export default function App() {
+return (
+  <NavigationContainer>
+    <Stack.Navigator initialRouteName="SignIn">
+      <Stack.Screen name="SignIn" component={SignIn} options={{ headerShown: false }}/>
+      <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }}/>
+      {/* Add more screens as needed */}
+    </Stack.Navigator>
+  </NavigationContainer>
+);
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 50,
-    backgroundColor: '#4CAF50', // This sets the background color of the entire app
+    backgroundColor: '#F7FEDB', // This sets the background color of the entire app
   },
   header: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: '#F7FEDB',
     padding: 20,
     alignItems: 'center',
   },
@@ -43,15 +62,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     padding: 20,
-    backgroundColor: '#8BC34A',
+    backgroundColor: '#D2DFAF',
   },
   navItem: {
-    color: 'white',
+    color: 'black',
   },
   main: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#C8E6C9',
+    backgroundColor: '#FFFFFF',
   },
   searchBox: {
     marginBottom: 20,
@@ -62,5 +81,24 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 10,
     padding: 10,
+  },
+  logoContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 15,
+  },
+  logoImage: {
+    width: 18, // or the width you want
+    height: 18, // or the height you want
+    position: 'absolute',
+    left: 243,
+    top: 12,
+    resizeMode: 'contain',
+  },
+  titleImage: {
+    width: 225, // or the width you want
+    height: 50,
+    resizeMode: 'contain',
   },
 });

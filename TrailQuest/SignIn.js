@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     padding: 20,
-  },
+  },  
   input: {
     height: 40,
     borderColor: '#4CAF50',
