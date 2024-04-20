@@ -10,8 +10,8 @@ function Home() {
       <StatusBar barStyle="dark-content" />
       <View style={styles.header}>
         <View style={styles.logoContainer}>
-          <Image source={require('./assets/trailQuestCompass.png')} style={styles.logoImage} /> 
-          <Image source={require('./assets/trailQuestWords.png')} style={styles.titleImage} />
+          <Image source={require('../assets/trailQuestCompass.png')} style={styles.logoImage} /> 
+          <Image source={require('../assets/trailQuestWords.png')} style={styles.titleImage} />
         </View>
       </View>
       <View style={styles.nav}>

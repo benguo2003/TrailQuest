@@ -6,7 +6,7 @@ export default function SignIn({ navigation }) {
   return (
     <View style={styles.container}>
       <View style={styles.logoContainer}>
-        <Image source={require('./assets/trailQuestLogoNoBG.png')} style={styles.logoImage} />
+        <Image source={require('../assets/trailQuestLogoNoBG.png')} style={styles.logoImage} />
       </View>      
       <View style={styles.formContainer}>
         <TextInput placeholder="Email" style={styles.input} />

@@ -1,11 +1,11 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import SignIn from './SignIn';
-import Home from './Home';
-import Temp from './Temp'; // Import your Home screen
-import Friends from './Friends'; // Import your Trails screen
-import Quests from './Quests'; // Import your Quests screen
-import Profile from './Profile'; // Import your Profile screen
+import SignIn from './components/SignIn';
+import Home from './components/Home';
+import Temp from './components/Temp'; // Import your Home screen
+import Friends from './components/Friends'; // Import your Trails screen
+import Quests from './components/Quests'; // Import your Quests screen
+import Profile from './components/Profile'; // Import your Profile screen
 
 const Stack = createStackNavigator();
 
