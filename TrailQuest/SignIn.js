@@ -26,6 +26,21 @@ export default function SignIn({ navigation }) {
         >
           Sign In
         </AwesomeButton>
+        <AwesomeButton
+          type="primary"
+          onPress={() => navigation.navigate('Home')}
+          width={200} // Adjust as needed
+          height={50} // Adjust as needed
+          textSize={18}
+          backgroundColor="#4CAF50"
+          backgroundDarker="#388E3C"
+          backgroundShadow="#2E7D32"
+          textColor="#FFFFFF"
+          springRelease
+          progress
+        >
+          Sign Up
+        </AwesomeButton>
       </View>
     </View>
   );
