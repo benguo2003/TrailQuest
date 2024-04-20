@@ -1,36 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
-import * as Location from 'expo-location';
+import React from 'react';
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 
 function QuestsScreen() {
-
-  const [location, setLocation] = useState(null);
-
-  useEffect(() => {
-    (async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== 'granted') {
-        console.log('Permission to access location was denied');
-        return;
-      }
-
-      let location = await Location.getCurrentPositionAsync({});
-      setLocation(location);
-    })();
-  }, []);
-
-
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Quests</Text>
-      {location && (
-        <MapView
-          provider={PROVIDER_GOOGLE}
-          style={styles.map}
-          region={location}
-        />
-      )}
+      {/* <Text style={styles.title}>Quests</Text> */}
+      {/* Rest of your code */}
+      {/* <StatusBar barStyle="dark-content" /> */}
+      <View style={styles.header}>
+        <View style={styles.logoContainer}>
+          <Image source={require('../assets/trailQuestCompass.png')} style={styles.logoImage} />
+          <Text style={styles.headerText}>Quests</Text>
+        </View>
+      </View>
+      <TouchableOpacity onPress={() => navigation.navigate('+')}>
+          <Text style={styles.navItem}>+</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -38,17 +23,35 @@ function QuestsScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#F7FEDB',
+    paddingTop: 50 // This sets the background color of the entire app
+  },
+  logoContainer: {
+    flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+    padding: 5,
   },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
+  logoImage: {
+    width: 18, // or the width you want
+    height: 18, // or the height you want
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    resizeMode: 'contain',
   },
-  map: {
-    width: '90%',
-    height: '50%',
+  header: {
+    backgroundColor: '#F7FEDB',
+    paddingVertical: 5,
+    alignItems: 'center',
   },
+  headerText: {
+    color: '#465306',
+    fontSize: 60,
+    // position: 'absolute',
+    marginLeft: 0,
+    top: 0
+  }
 });
 
-export default QuestsScreen;
+export default QuestsScreen; 
