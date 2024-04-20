@@ -3,7 +3,7 @@ import { View, StatusBar, Image, TouchableOpacity, Text, StyleSheet, TextInput }
 import { useNavigation } from '@react-navigation/native';
 import AwesomeButton from "react-native-really-awesome-button";
 
-function Home() {
+function QuestsScreen() {
   const navigation = useNavigation();
 
   return (
@@ -113,4 +113,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default Home;
+export default QuestsScreen;
