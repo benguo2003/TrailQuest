@@ -14,10 +14,10 @@ function QuestsScreen() {
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" />
       <View style={styles.header}>
-      <View style={styles.logoContainer}>
-        <Text style={styles.logoText}>Quests</Text>
-        <Image source={require('../assets/trailQuestCompass.png')} style={styles.logoImage} />
-      </View>
+        <View style={styles.logoContainer}>
+          <Text style={styles.logoText}>Quests</Text>
+          <Image source={require('../assets/trailQuestCompass.png')} style={styles.logoImage} />
+        </View>
       </View>
       <View style={styles.nav}>
         <TouchableOpacity onPress={() => navigation.navigate('Home')}>
@@ -66,6 +66,7 @@ const styles = StyleSheet.create({
     header: {
       backgroundColor: '#F7FEDB',
       alignItems: 'center',
+      padding: screenHeight * 0.02,
     },
     headerText: {
       color: 'white',
@@ -99,7 +100,7 @@ const styles = StyleSheet.create({
       flexDirection: 'row',
       justifyContent: 'center',
       alignItems: 'center',
-      padding: screenHeight * 0.02,
+
     },
     logoImage: {
       width: screenWidth * 0.045,
@@ -110,7 +111,7 @@ const styles = StyleSheet.create({
     },
     logoText: {
       color: '#465306',
-      fontSize: 50,
+      fontSize: 45,
       textAlign: 'center',
       paddingLeft: screenWidth * 0.12, // Same width as the logoImage
     },

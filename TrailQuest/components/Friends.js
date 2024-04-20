@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
     },
     logoText: {
       color: '#465306',
-      fontSize: 50,
+      fontSize: 45,
       textAlign: 'center',
       paddingLeft: screenWidth * 0.12, // Same width as the logoImage
     },
