@@ -137,13 +137,13 @@ const styles = StyleSheet.create({
     },
     friend: {
       flexDirection: 'row',
-      width: 300,
-      height: 150,
+      width: screenWidth * 0.8,
+      height: screenHeight * 0.15,
       top: 30,
     },
     friendProfile: {
-      width: 90,
-      height: 90,
+      width: screenWidth * 0.20,
+      height: screenWidth * 0.20,
       left: 20,
     },
     friendName: {
@@ -153,20 +153,20 @@ const styles = StyleSheet.create({
     },
     friendInfo: {
       backgroundColor: '#D2DFAF',
-      width: 280,
-      height: 120,
+      width: screenWidth * 0.58,
+      height: screenHeight * 0.12,
       left: 50,
       borderRadius: 20,
       alignItems: "center",
       justifyContent: "center",
     },
     quest: {
-      padding: 5,
+      padding: screenWidth * 0.005,
       color: "#465306",
       fontSize: 25,
     },
     percentage: {
-      padding: 5,
+      padding: screenWidth * 0.005,
       color: "white",
       fontSize: 40,
     }
