@@ -1,57 +1,116 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, StatusBar, Image, TouchableOpacity, Text, StyleSheet, TextInput } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import AwesomeButton from "react-native-really-awesome-button";
 
-function QuestsScreen() {
+function Home() {
+  const navigation = useNavigation();
+
   return (
     <View style={styles.container}>
-      {/* <Text style={styles.title}>Quests</Text> */}
-      {/* Rest of your code */}
-      {/* <StatusBar barStyle="dark-content" /> */}
+      <StatusBar barStyle="dark-content" />
       <View style={styles.header}>
         <View style={styles.logoContainer}>
-          <Image source={require('../assets/trailQuestCompass.png')} style={styles.logoImage} />
-          <Text style={styles.headerText}>Quests</Text>
+          <Image source={require('../assets/trailQuestCompass.png')} style={styles.logoImage} /> 
+          <Text style={styles.logoText}>Quests</Text>
         </View>
       </View>
-      <TouchableOpacity onPress={() => navigation.navigate('+')}>
-          <Text style={styles.navItem}>+</Text>
-      </TouchableOpacity>
+      <View style={styles.nav}>
+        <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+          <Text style={styles.navItem}>Home</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('Quests')}>
+          <Text style={styles.navItem}>Quests</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
+          <Text style={styles.navItem}>Profile</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('Friends')}>
+          <Text style={styles.navItem}>Friends</Text>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.main}>
+        <View style={styles.searchBox}>
+          <TextInput style={styles.input} placeholder="Search for a trail..." />
+        </View>
+        <AwesomeButton
+          type="primary"
+          onPress={() => navigation.navigate('Start')}
+          width={200} // Adjust as needed
+          height={50} // Adjust as needed
+          textSize={18} // Adjust as needed
+          backgroundColor="#4CAF50"
+          backgroundDarker="#388E3C"
+          backgroundShadow="#2E7D32"
+          textColor="#FFFFFF"
+          springRelease
+
+        >
+          See Trail Map
+        </AwesomeButton>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#F7FEDB',
-    paddingTop: 50 // This sets the background color of the entire app
-  },
-  logoContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 5,
-  },
-  logoImage: {
-    width: 18, // or the width you want
-    height: 18, // or the height you want
-    position: 'absolute',
-    left: 0,
-    top: 0,
-    resizeMode: 'contain',
-  },
-  header: {
-    backgroundColor: '#F7FEDB',
-    paddingVertical: 5,
-    alignItems: 'center',
-  },
-  headerText: {
-    color: '#465306',
-    fontSize: 60,
-    // position: 'absolute',
-    marginLeft: 0,
-    top: 0
-  }
+    container: {
+      flex: 1,
+      paddingTop: 50,
+      backgroundColor: '#F7FEDB',
+    },
+    header: {
+      backgroundColor: '#F7FEDB',
+      alignItems: 'center',
+    },
+    headerText: {
+      color: 'white',
+      fontSize: 20,
+    },
+    nav: {
+      flexDirection: 'row',
+      justifyContent: 'space-around',
+      padding: 20,
+      backgroundColor: '#D2DFAF',
+    },
+    navItem: {
+      color: 'black',
+    },
+    main: {
+      flex: 1,
+      padding: 20,
+      backgroundColor: '#FFFFFF',
+    },
+    searchBox: {
+      marginBottom: 20,
+    },
+    input: {
+      height: 40,
+      borderColor: '#4CAF50',
+      borderWidth: 1,
+      borderRadius: 10,
+      padding: 10,
+    },
+    logoContainer: {
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center',
+      padding: 15,
+    },
+    logoImage: {
+      width: 18, // or the width you want
+      height: 18, // or the height you want
+      position: 'absolute',
+      left: 185,
+      top: 25,
+      resizeMode: 'contain',
+    },
+    logoText: {
+      color: '#465306',
+      fontSize: 50,
+      marginLeft: 0,
+      top: 0
+    },
 });
 
-export default QuestsScreen; 
+export default Home;

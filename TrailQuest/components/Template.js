@@ -11,7 +11,7 @@ function Home() {
       <View style={styles.header}>
         <View style={styles.logoContainer}>
           <Image source={require('../assets/trailQuestCompass.png')} style={styles.logoImage} /> 
-          <Image source={require('../assets/trailQuestWords.png')} style={styles.titleImage} />
+          <Text style={styles.logoText}>ENTER TEXT HERE</Text>
         </View>
       </View>
       <View style={styles.nav}>
@@ -46,7 +46,6 @@ const styles = StyleSheet.create({
     },
     header: {
       backgroundColor: '#F7FEDB',
-      padding: 8.5,
       alignItems: 'center',
     },
     headerText: {
@@ -87,14 +86,15 @@ const styles = StyleSheet.create({
       width: 18, // or the width you want
       height: 18, // or the height you want
       position: 'absolute',
-      left: 243,
-      top: 8,
+      left: 185, // EDIT THIS FOR TEXT
+      top: 25,
       resizeMode: 'contain',
     },
-    titleImage: {
-      width: 225, // or the width you want
-      height: 50,
-      resizeMode: 'contain',
+    logoText: {
+      color: '#465306',
+      fontSize: 50,
+      marginLeft: 0,
+      top: 0
     },
 });
 
