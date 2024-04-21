@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StatusBar, Image, TouchableOpacity, Text, StyleSheet, TextInput, Dimensions} from 'react-native';
+import { View, StatusBar, Image, TouchableOpacity, Text, StyleSheet, TextInput, Dimensions, ScrollView, FlatList} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import AwesomeButton from "react-native-really-awesome-button";
 
@@ -9,6 +9,17 @@ const screenHeight = Dimensions.get('window').height;
 function FriendsScreen() {
   const navigation = useNavigation();
 
+  const friendsList = [
+    { name: 'Bradley', quest: 'Wayne Quest', percentage: '38%' },
+    { name: 'Gabby', quest: 'Malibu Quest', percentage: '56%' },
+    { name: 'Josiah', quest: 'Olympic Quest', percentage: '71%' },
+    { name: 'Jenny', quest: 'Runyon Quest', percentage: '3%' },
+    { name: 'Jenny', quest: 'Runyon Quest', percentage: '3%' },
+    { name: 'Jenny', quest: 'Runyon Quest', percentage: '3%' },
+    { name: 'Jenny', quest: 'Runyon Quest', percentage: '3%' },
+  ];
+  
+  
   return (
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" />
@@ -33,47 +44,21 @@ function FriendsScreen() {
         </TouchableOpacity>
       </View>
       <View style={styles.main}>
-        <View style={styles.friend}>
-          <View>
-            <Image source={require('../assets/profileIcon.png')} style={styles.friendProfile} />
-            <Text style={styles.friendName}>Bradley</Text>
-          </View>
-          <View style={styles.friendInfo}>
-            <Text style={styles.quest}>Wayne Quest</Text>
-            <Text style={styles.percentage}>38%</Text>
-          </View>
+        <ScrollView contentContainerStyle={styles.scrollView}>
+          {friendsList.map((friend, index) => (
+            <View style={styles.friend} key={index}>
+              <View>
+                <Image source={require('../assets/profileIcon.png')} style={styles.friendProfile} />
+                <Text style={styles.friendName}>{friend.name}</Text>
+                </View>
+                <View style={styles.friendInfo}>
+                  <Text style={styles.quest}>{friend.quest}</Text>
+                  <Text style={styles.percentage}>{friend.percentage}</Text>
+                </View>
+            </View>
+          ))}
+        </ScrollView>
         </View>
-        <View style={styles.friend}>
-        <View>
-            <Image source={require('../assets/profileIcon.png')} style={styles.friendProfile} />
-            <Text style={styles.friendName}>Gabby</Text>
-          </View>
-          <View style={styles.friendInfo}>
-            <Text style={styles.quest}>Malibu Quest</Text>
-            <Text style={styles.percentage}>56%</Text>
-          </View>
-        </View>
-        <View style={styles.friend}>
-        <View>
-            <Image source={require('../assets/profileIcon.png')} style={styles.friendProfile} />
-            <Text style={styles.friendName}>Josiah</Text>
-          </View>
-          <View style={styles.friendInfo}>
-            <Text style={styles.quest}>Olympic Quest</Text>
-            <Text style={styles.percentage}>71%</Text>
-          </View>
-        </View>
-        <View style={styles.friend}>
-        <View>
-            <Image source={require('../assets/profileIcon.png')} style={styles.friendProfile} />
-            <Text style={styles.friendName}>Jenny</Text>
-          </View>
-          <View style={styles.friendInfo}>
-          <Text style={styles.quest}>Runyon Quest</Text>
-          <Text style={styles.percentage}>3%</Text>
-          </View>
-        </View>
-      </View>
     </View>
   );
 }
@@ -102,12 +87,14 @@ const styles = StyleSheet.create({
       color: 'black',
     },
     main: {
-      flex: 1,
-      padding: 20,
       backgroundColor: '#FFFFFF',
+      flex: 1,
     },
-    searchBox: {
-      marginBottom: 20,
+    scrollView: {
+      flexGrow: 1,
+      padding: screenHeight * 0.02,
+      backgroundColor: '#FFFFFF',
+      // bottom: screenHeight * 0.1,
     },
     input: {
       height: 40,
@@ -154,9 +141,9 @@ const styles = StyleSheet.create({
     },
     friendInfo: {
       backgroundColor: '#D2DFAF',
-      width: screenWidth * 0.58,
+      width: screenWidth * 0.6,
       height: screenHeight * 0.12,
-      left: screenWidth * 0.12,
+      left: screenWidth * 0.1,
       borderRadius: 20,
       alignItems: "center",
       justifyContent: "center",
@@ -164,12 +151,12 @@ const styles = StyleSheet.create({
     quest: {
       padding: screenWidth * 0.005,
       color: "#465306",
-      fontSize: 25,
+      fontSize: screenHeight * 0.03,
     },
     percentage: {
       padding: screenWidth * 0.005,
       color: "white",
-      fontSize: 40,
+      fontSize: screenHeight * 0.04,
     }
 });
 
