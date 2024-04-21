@@ -1,39 +1,56 @@
 import React from 'react';
-import { View, TextInput, Image, StyleSheet, TouchableOpacity, Text } from 'react-native';
+import { View, TextInput, Image, StyleSheet, TouchableOpacity, Text, KeyboardAvoidingView, Platform} from 'react-native';
 import AwesomeButton from "react-native-really-awesome-button";
+import { useFonts, RobotoSlab_600SemiBold } from '@expo-google-fonts/roboto-slab';
 
 export default function SignIn({ navigation }) {
+  let [fontsLoaded, fontError] = useFonts({
+    RobotoSlab_600SemiBold,
+  });
+
+  if (!fontsLoaded && !fontError) {
+    return null;
+  }
+
   return (
-    <View style={styles.container}>
-      <View style={styles.logoContainer}>
-        <Image source={require('../assets/trailQuestLogoNoBG.png')} style={styles.logoImage} />
-      </View>
-      <View style={styles.formContainer}>
-        <TextInput placeholder="Email" style={styles.input} />
-        <TextInput placeholder="Password" secureTextEntry style={styles.input} />
+    <KeyboardAvoidingView 
+      style={styles.container} 
+      behavior={Platform.OS === "ios" ? "padding" : "height"} 
+      enabled
+    >
+      <View style={styles.container}>
+        <View style={styles.logoContainer}>
+          <Image source={require('../assets/trailQuestLogoNoBG.png')} style={styles.logoImage} />
+        </View>
+        <View style={styles.formContainer}>
+          <TextInput placeholder="Email" style={styles.input} autoCorrect={false} textContentType='oneTimeCode'/>
+          <TextInput placeholder="Password" secureTextEntry style={styles.input} autoCorrect={false} textContentType='oneTimeCode'/>
+          <AwesomeButton
+            type="primary"
+            onPress={() => navigation.navigate('Home')}
+            width={100} // Adjust as needed
+            height={50} // Adjust as needed
+            textSize={18} // Adjust as needed
+            backgroundColor="#4CAF50"
+            backgroundDarker="#52a934"
+            backgroundActive="#7cbe2d"
+            backgroundShadow="#3f8228"
+            backgroundProgress="#89cf35"
+            borderColor="#5bbd3a"
+            textColor="#FFFFFF"
+            springRelease
+          >
+            Log In
+          </AwesomeButton>
 
-        <AwesomeButton
-          type="primary"
-          onPress={() => navigation.navigate('Home')}
-          width={100} // Adjust as needed
-          height={50} // Adjust as needed
-          textSize={18} // Adjust as needed
-          backgroundColor="#D2DFAF"
-          backgroundDarker="#D2DFAF"
-          backgroundShadow="#D2DFAF"
-          textColor="#FFFFFF"
-          springRelease
-        >
-          Log In
-        </AwesomeButton>
-
-        <View style={styles.signup}>
-          <TouchableOpacity onPress={() => navigation.navigate('signup')}>
-            <Text style={styles.navItem}>Sign Up</Text>
-          </TouchableOpacity>
+          <View style={styles.SignUp}>
+            <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
+              <Text style={styles.navItem}>Sign Up</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -53,10 +70,9 @@ const styles = StyleSheet.create({
     padding: 10,
     marginBottom: 30,
   },
-  signup: {
+  SignUp: {
    padding: 15,
   },
-
   logoImage: {
     width: 340,
     height: 340,
@@ -73,5 +89,8 @@ const styles = StyleSheet.create({
     top: -70,  // Adjust this value as needed to lower the position
     marginTop: -10,  // Added to bring down the form elements
   },
- 
+  navItem: {
+    textDecorationLine: 'underline',
+    fontFamily: 'RobotoSlab_600SemiBold',
+  },
 });

@@ -32,8 +32,23 @@ function Home() {
         <View style={styles.searchBox}>
           <TextInput style={styles.input} placeholder="Search for a trail..." />
         </View>
+        <AwesomeButton
+          type="primary"
+          onPress={() => navigation.navigate('Start')}
+          width={200} // Adjust as needed
+          height={50} // Adjust as needed
+          textSize={18} // Adjust as needed
+          backgroundColor="#4CAF50"
+          backgroundDarker="#388E3C"
+          backgroundShadow="#2E7D32"
+          textColor="#FFFFFF"
+          springRelease
+        >
+          See Trail Map
+        </AwesomeButton>
         {/* Rest of your code */}
       </View>
+
     </View>
   );
 }
