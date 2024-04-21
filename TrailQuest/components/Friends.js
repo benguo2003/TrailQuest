@@ -28,10 +28,46 @@ function FriendsScreen() {
         </View>
       </View>
       <View style={styles.main}>
-       <Image source={require('../assets/profileIcon.png')} style={styles.friendProfile1} />
-       <Image source={require('../assets/profileIcon.png')} style={styles.friendProfile2} />
-       <Image source={require('../assets/profileIcon.png')} style={styles.friendProfile3} />
-       <Image source={require('../assets/profileIcon.png')} style={styles.friendProfile4} />
+        <View style={styles.friend}>
+          <View>
+            <Image source={require('../assets/profileIcon.png')} style={styles.friendProfile} />
+            <Text style={styles.friendName}>Bradley</Text>
+          </View>
+          <View style={styles.friendInfo}>
+            <Text style={styles.quest}>Wayne Quest</Text>
+            <Text style={styles.percentage}>38%</Text>
+          </View>
+        </View>
+        <View style={styles.friend}>
+        <View>
+            <Image source={require('../assets/profileIcon.png')} style={styles.friendProfile} />
+            <Text style={styles.friendName}>Gabby</Text>
+          </View>
+          <View style={styles.friendInfo}>
+            <Text style={styles.quest}>Malibu Quest</Text>
+            <Text style={styles.percentage}>56%</Text>
+          </View>
+        </View>
+        <View style={styles.friend}>
+        <View>
+            <Image source={require('../assets/profileIcon.png')} style={styles.friendProfile} />
+            <Text style={styles.friendName}>Josiah</Text>
+          </View>
+          <View style={styles.friendInfo}>
+            <Text style={styles.quest}>Olympic Quest</Text>
+            <Text style={styles.percentage}>71%</Text>
+          </View>
+        </View>
+        <View style={styles.friend}>
+        <View>
+            <Image source={require('../assets/profileIcon.png')} style={styles.friendProfile} />
+            <Text style={styles.friendName}>Jenny</Text>
+          </View>
+          <View style={styles.friendInfo}>
+          <Text style={styles.quest}>Runyon Quest</Text>
+          <Text style={styles.percentage}>3%</Text>
+          </View>
+        </View>
       </View>
       <Navbar navigation={navigation}/>
     </View>
@@ -96,30 +132,42 @@ const styles = StyleSheet.create({
       paddingLeft: screenWidth * 0.12, // Same width as the logoImage
       fontFamily: 'RobotoSlab_600SemiBold',
     },
-    friendProfile1: {
-      width: 90,
-      height: 90,
+    friend: {
+      flexDirection: 'row',
+      width: screenWidth * 0.8,
+      height: screenHeight * 0.15,
       top: 30,
-      left: 20,
     },
-    friendProfile2: {
-      width: 90,
-      height: 90,
-      top: 70,
-      left: 20,
+    friendProfile: {
+      width: screenWidth * 0.20,
+      height: screenWidth * 0.20,
+      right:0,
     },
-    friendProfile3: {
-      width: 90,
-      height: 90,
-      top: 110,
-      left: 20,
+    friendName: {
+      color: "#465306",
+      left: 0,
+      top: 10,
+      textAlign: 'center',
     },
-    friendProfile4: {
-      width: 90,
-      height: 90,
-      top: 150,
-      left: 20,
+    friendInfo: {
+      backgroundColor: '#D2DFAF',
+      width: screenWidth * 0.58,
+      height: screenHeight * 0.12,
+      left: screenWidth * 0.12,
+      borderRadius: 20,
+      alignItems: "center",
+      justifyContent: "center",
     },
+    quest: {
+      padding: screenWidth * 0.005,
+      color: "#465306",
+      fontSize: 25,
+    },
+    percentage: {
+      padding: screenWidth * 0.005,
+      color: "white",
+      fontSize: 40,
+    }
 });
 
 export default FriendsScreen;
