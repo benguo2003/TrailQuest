@@ -10,10 +10,6 @@ const screenHeight = Dimensions.get('window').height;
 
 function Home() {
   const navigation = useNavigation();
-  
-  let [fontsLoaded] = useFonts({
-    RobotoSlab_600SemiBold,
-  });
 
   const [input, setInput] = useState('');
   const [response, setResponse] = useState('');
@@ -27,6 +23,10 @@ function Home() {
     setResponse(`Quest Name: ${quest_name}\nTrail 1: ${trail_1}\nTrail 2: ${trail_2}\nTrail 3: ${trail_3}`);
   };
 
+  let [fontsLoaded, fontError] = useFonts({
+    RobotoSlab_600SemiBold,
+  });
+
   if (!fontsLoaded && !fontError) {
     return null;
   }
@@ -36,7 +36,8 @@ function Home() {
       <StatusBar barStyle="dark-content" />
       <View style={styles.header}>
         <View style={styles.logoContainer}>
-          <Image source={require('../assets/trailQuestWords.png')} style={styles.logoImage} />
+          <Text style={styles.logoText}>Home</Text>
+          <Image source={require('../assets/trailQuestCompass.png')} style={styles.logoImage} /> 
         </View>
       </View>
       <View style={styles.main}>
@@ -67,13 +68,12 @@ function Home() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 30,
+    paddingTop: 50,
     backgroundColor: '#F7FEDB',
   },
   header: {
     backgroundColor: '#F7FEDB',
     alignItems: 'center',
-    padding: screenHeight * 0.02,
   },
   main: {
     flex: 1,
@@ -128,7 +128,6 @@ const styles = StyleSheet.create({
     textAlign: 'left',  // Correct property to align text horizontally
     alignSelf: 'flex-start',  // Align text to the start (left) of its container
   },
-  
   detailText: {
     color: '#333',
     fontSize: 20,
@@ -140,11 +139,21 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+    padding: screenHeight * 0.02,
   },
   logoImage: {
-    width: screenWidth * 0.45,
+    width: screenWidth * 0.045,
     height: screenHeight * 0.045,
     resizeMode: 'contain',
+    marginRight: screenWidth * 0.07, // Same width as the logoImage
+    top: -12
+  },
+  logoText: {
+    color: '#465306',
+    fontSize: 45,
+    textAlign: 'center',
+    paddingLeft: screenWidth * 0.12, // Same width as the logoImage
+    fontFamily: 'RobotoSlab_600SemiBold',
   },
   SecondouterQuestContainer: {
     width: screenWidth - 40,
