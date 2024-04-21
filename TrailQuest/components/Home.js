@@ -3,7 +3,6 @@ import { View, StatusBar, Image, TextInput, StyleSheet, Dimensions, Text, Button
 import { useNavigation, useIsFocused} from '@react-navigation/native';
 import Navbar from './Navbar'; // Import Navbar
 import { useFonts, RobotoSlab_600SemiBold } from '@expo-google-fonts/roboto-slab';
-import runPrompt from '../backend/chat.js';  // Import the sendMessage function
 import { UserContext } from '../backend/UserContext'; // Import your UserContext.js file
 
 const screenWidth = Dimensions.get('window').width;
