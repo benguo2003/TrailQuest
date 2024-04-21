@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import AwesomeButton from "react-native-really-awesome-button";
 import Navbar from './Navbar'; // Import Navbar
 import { useFonts, RobotoSlab_600SemiBold } from '@expo-google-fonts/roboto-slab';
-import { FlatList } from 'react-native';
+import { ScrollView } from 'react-native';
 
 // Get the screen's width and height
 const screenWidth = Dimensions.get('window').width;
@@ -15,22 +15,22 @@ function QuestsScreen() {
 
   const quests = [
     {
-      id: 1,
+      id: 50,
       title: 'Laguna Beach',
       image: 'https://www.thatocgirl.com/wp-content/uploads/2020/12/west-ridge-trail-hike-to-top-of-the-world.jpg',
     },
     {
-      id: 2,
+      id: 51,
       title: 'Santa Monica Beach',
       image: 'https://www.thatocgirl.com/wp-content/uploads/2020/12/west-ridge-trail-hike-to-top-of-the-world.jpg',
     },
     {
-      id: 3,
+      id: 52,
       title: 'Anaheim',
       image: 'https://www.thatocgirl.com/wp-content/uploads/2020/12/west-ridge-trail-hike-to-top-of-the-world.jpg',
     },
     {
-      id: 4,
+      id: 53,
       title: 'San Diego',
       image: 'https://www.thatocgirl.com/wp-content/uploads/2020/12/west-ridge-trail-hike-to-top-of-the-world.jpg',
     },
@@ -53,40 +53,26 @@ function QuestsScreen() {
         </View>
       </View>
       <View style={styles.main}>
-        <AwesomeButton
-          type="primary"
-          onPress={() => navigation.navigate('Start')}
-          width={200} // Adjust as needed
-          height={50} // Adjust as needed
-          textSize={18} // Adjust as needed
-          backgroundColor="#4CAF50"
-          backgroundDarker="#388E3C"
-          backgroundShadow="#2E7D32"
-          textColor="#FFFFFF"
-          springRelease
-        >
-          See Trail Map
-        </AwesomeButton>
-        <FlatList 
-          style={styles.cardContainer}
-          data = {quests}
-          renderItem={({ item: quest }) => (
-            <View style={styles.card}> 
-              <Image source={{ uri: quest.image }} style={styles.image} />
-              <Text style = {styles.cardText}>{quest.title}</Text>
-            </View>
-          )}
-          keyExtractor={(quest, index) => index.toString()}  
-        />
+        <View style={{flex: 1}}>
+          <ScrollView contentContainerStyle={styles.cardContainer}>
+            {quests.map((quest, index) => (
+              <View key={index} style={styles.card}>
+                <Text style={styles.cardTextQuestNum}>Quest {index + 1}</Text>
+                <Image source={{ uri: quest.image }} style={styles.image} />
+                <Text style = {styles.cardText}>{quest.title}</Text>
+              </View>
+            ))}
+          </ScrollView>
+        </View>
+
         <View style={styles.buttonContainer}>
           <AwesomeButton
             width={60}
             height={60}
             borderRadius={30}
             backgroundColor="#FF6347"
-            onPress={() => console.log('Button pressed')}
           >
-            <Text style={{ color: 'white' }}>+</Text>
+            <Text style={{ color: 'white', fontFamily: 'RobotoSlab_600SemiBold', fontSize: 30 }}>+</Text>
           </AwesomeButton>
         </View>
       </View>
@@ -157,22 +143,29 @@ const styles = StyleSheet.create({
 
     buttonContainer: {
       position: 'absolute',
-      bottom: 100,
+      bottom: 25,
       right: 20,
     },
 
     cardContainer: {
       top: 10,
-      flex:1,
-      maxHeight: 0.5 * screenHeight,
-      padding: 10,
     },
     card: {
-      marginBottom: 10,
       padding: 10,
+      marginBottom: 20,
       backgroundColor: '#D2DFAF',
       borderRadius: 10,
       flexDirection: 'column',
+      width: 0.9 * screenWidth,
+      height: screenHeight * 0.4,
+    },
+    cardTextQuestNum: {
+      color: "#465306",
+      fontSize: screenHeight * 0.02,
+      paddingTop: screenHeight * 0.01,
+      paddingBottom: screenHeight * 0.01,
+      fontFamily: 'RobotoSlab_600SemiBold',
+      textDecorationLine: 'underline',
     },
     image: {
       width: '100%',
@@ -185,6 +178,7 @@ const styles = StyleSheet.create({
       fontSize: screenHeight * 0.03,
       paddingTop: screenHeight * 0.01,
       paddingBottom: screenHeight * 0.01,
+      fontFamily: 'RobotoSlab_600SemiBold',
     },
 });
 
