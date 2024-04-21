@@ -12,6 +12,7 @@ import NewQuest from './components/NewQuest';
 const Stack = createStackNavigator();
 
 function AppNavigator() {
+
   return (
     
     <Stack.Navigator 
