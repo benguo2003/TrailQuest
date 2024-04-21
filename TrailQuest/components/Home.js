@@ -19,8 +19,12 @@ function Home() {
   const [response, setResponse] = useState('');
 
   const handlePress = async () => {
-    const res = await runPrompt(input);
-    setResponse(res);
+    const res = await runPrompt("Baldwin Hills Park Lands, California State Parks, Catalina Island Conservancy, City of Palmdale, County of Los Angeles, Mountains Recreation and Conservation Authority, Mountains Restoration Trust", "Large backpack, fleece pants and jacket");
+    quest_name = res[0];
+    trail_1 = res[1];
+    trail_2 = res[2];
+    trail_3 = res[3];
+    setResponse(`Quest Name: ${quest_name}\nTrail 1: ${trail_1}\nTrail 2: ${trail_2}\nTrail 3: ${trail_3}`);
   };
 
   if (!fontsLoaded && !fontError) {
