@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, StatusBar, Image, TouchableOpacity, Text, StyleSheet, TextInput, Dimensions, KeyboardAvoidingView, Platform } from 'react-native';
 import Slider from '@react-native-community/slider';
 import { useNavigation } from '@react-navigation/native';
@@ -12,6 +12,8 @@ const screenHeight = Dimensions.get('window').height;
 
 function NewQuest() {
   const navigation = useNavigation();
+
+  const [range, setRange] = useState(100);
 
   let [fontsLoaded, fontError] = useFonts({
     RobotoSlab_600SemiBold,
@@ -40,13 +42,21 @@ function NewQuest() {
             <View style={{padding: screenHeight * 0.015}}>
                 <Slider
                     size="Default"
-                    defaultValue={100}
+                    defaultValue={0}
+                    minimumValue={0}
+                    maximumValue={100}
                     aria-label="Default"
                     valueLabelDisplay="auto"
                     color={'#4CAF50'}
+                    value={range}
+                    thumbTintColor='#5d3a1a'
+                    minimumTrackTintColor="#4CAF50" // Color of the track to the left of the thumb
+                    onValueChange={(value) => setRange(Math.round(value))}
                     />
             </View>
-            <Text style={{fontSize:20, fontFamily: 'RobotoSlab_600SemiBold', padding: screenWidth * 0.02}}>Select your range in miles</Text>
+            <Text style={{fontSize:20, fontFamily: 'RobotoSlab_600SemiBold', padding: screenWidth * 0.02}}>
+              Select your range in miles: {Math.round(range)}
+            </Text>
             <Text style={{fontSize:20, fontFamily: 'RobotoSlab_600SemiBold', padding: screenWidth * 0.02}}>Provide your gear list:</Text>
             <View style={{justifyContent: 'center', alignItems: 'center'}}>
                 <TextInput placeholder="Type your list here" style={styles.input} autoCorrect={false} textContentType='oneTimeCode' textAlignVertical="top"/>
