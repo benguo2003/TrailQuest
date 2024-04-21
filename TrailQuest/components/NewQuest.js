@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import AwesomeButton from "react-native-really-awesome-button";
 import Navbar from './Navbar'; // Import Navbar
 import { useFonts, RobotoSlab_600SemiBold } from '@expo-google-fonts/roboto-slab';
+import { fetchData } from '../backend/trails';
 
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
@@ -20,6 +21,11 @@ function NewQuest() {
 
   if (!fontsLoaded && !fontError) {
     return null;
+  }
+
+  const generateTrails = async () => {
+    const trails = await fetchData();
+    console.log(trails);
   }
 
   return (
@@ -65,6 +71,7 @@ function NewQuest() {
                     width={screenWidth * 0.85} // Adjust as needed
                     height={50} // Adjust as needed
                     textSize={20} // Adjust as needed
+                    onPress={generateTrails}
                     backgroundColor="#4CAF50"
                     backgroundDarker="#52a934"
                     backgroundActive="#7cbe2d"
