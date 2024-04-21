@@ -16,12 +16,12 @@ export const updateDocument = async (collectionName, docId, fieldsToUpdate) => {
     }
   };
 
-export const updateDocument2 = async (collectionName, docId, fieldsToUpdate) => {
+export const updateDocument2 = async (collectionName, docId, newFriendEmail) => {
   const docRef = doc(FIREBASE_DB, collectionName, docId); // get document reference
   
   try {
     await updateDoc(docRef, {
-      friends: arrayUnion(fieldsToUpdate)
+      friends: arrayUnion(newFriendEmail)
     });
     console.log('Document successfully updated!');
   } catch (error) {

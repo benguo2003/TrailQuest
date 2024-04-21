@@ -198,7 +198,7 @@ const styles = StyleSheet.create({
     },
     cardText: {
       color: "#6E260E",
-      fontSize: screenHeight * 0.03,
+      fontSize: screenHeight * 0.02,
       paddingTop: screenHeight * 0.01,
       paddingBottom: screenHeight * 0.01,
       fontFamily: 'RobotoSlab_600SemiBold',

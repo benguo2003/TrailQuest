@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState, useContext } from 'react';
 import { View, StatusBar, Image, TouchableOpacity, Text, StyleSheet, TextInput, Dimensions, ScrollView, FlatList} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Navbar from './Navbar'; // Import Navbar
 import { useFonts, RobotoSlab_600SemiBold } from '@expo-google-fonts/roboto-slab';
 import AwesomeButton from "react-native-really-awesome-button";
+import { UserContext } from '../backend/UserContext';
 
 
 const screenWidth = Dimensions.get('window').width;
@@ -11,6 +12,7 @@ const screenHeight = Dimensions.get('window').height;
 
 function FriendsScreen() {
   const navigation = useNavigation();
+  const { userData, setUserData} = useContext(UserContext);
 
   let [fontsLoaded, fontError] = useFonts({
     RobotoSlab_600SemiBold,
@@ -20,16 +22,7 @@ function FriendsScreen() {
     return null;
   }
 
-  const friendsList = [
-    { name: 'Bradley', quest: 'Wayne Quest', percentage: '38%' },
-    { name: 'Gabby', quest: 'Malibu Quest', percentage: '56%' },
-    { name: 'Josiah', quest: 'Olympic Quest', percentage: '71%' },
-    { name: 'Jenny', quest: 'Runyon Quest', percentage: '3%' },
-    { name: 'Jenny', quest: 'Runyon Quest', percentage: '3%' },
-    { name: 'Jenny', quest: 'Runyon Quest', percentage: '3%' },
-    { name: 'Jenny', quest: 'Runyon Quest', percentage: '3%' },
-  ];
-  
+  const friendsList = userData.friends;
   
   return (
     <View style={styles.container}>
@@ -51,8 +44,7 @@ function FriendsScreen() {
                   <Text style={styles.friendName}>{friend.name}</Text>
                 </View>
                 <View style={styles.friendInfo}>
-                  <Text style={styles.quest}>{friend.quest}</Text>
-                  <Text style={styles.percentage}>{friend.percentage}</Text>
+                  <Text style={styles.friendInfo}>{friend}</Text>
                 </View>
               </View>
               ))}
@@ -156,13 +148,8 @@ const styles = StyleSheet.create({
       textAlign: 'center',
     },
     friendInfo: {
-      backgroundColor: '#D2DFAF',
-      width: screenWidth * 0.6,
-      height: screenHeight * 0.12,
-      left: screenWidth * 0.05,
-      borderRadius: 20,
-      alignItems: "center",
-      justifyContent: "center",
+      fontSize: 24,
+      fontFamily: 'RobotoSlab_600SemiBold',
     },
     quest: {
       padding: screenWidth * 0.005,

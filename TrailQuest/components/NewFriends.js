@@ -38,7 +38,8 @@ function NewFriends() {
           setshowFriend(true);
           updateDocument2('users', userData.email, tempData.email).then(() => {
             setUserData({
-              friends: tempData.email
+              ...userData,
+              friends: [tempData.email]
             });
           });
         }
