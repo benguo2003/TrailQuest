@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, TextInput, Image, StyleSheet, TouchableOpacity, Text, KeyboardAvoidingView, Platform} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, TextInput, Image, StyleSheet, TouchableOpacity, Text, KeyboardAvoidingView, Platform, ActivityIndicator} from 'react-native';
 import AwesomeButton from "react-native-really-awesome-button";
 import { useFonts, RobotoSlab_600SemiBold } from '@expo-google-fonts/roboto-slab';
 
@@ -22,9 +22,9 @@ export default function SignUp({ navigation }) {
           <Image source={require('../assets/trailQuestLogoNoBG.png')} style={styles.logoImage} />
         </View>      
         <View style={styles.formContainer}>
-          <TextInput placeholder="Name" style={styles.input} autoCorrect={false} textContentType='oneTimeCode'/>
-          <TextInput placeholder="Username" style={styles.input} autoCorrect={false} textContentType='oneTimeCode'/>
-          <TextInput placeholder="password" secureTextEntry style={styles.input} autoCorrect={false} textContentType='oneTimeCode'/>
+          <TextInput placeholder="Full Name" style={styles.input} autoCorrect={false} textContentType='oneTimeCode'/>
+          <TextInput placeholder="Email" style={styles.input} autoCorrect={false} textContentType='oneTimeCode'/>
+          <TextInput placeholder="Password" secureTextEntry style={styles.input} autoCorrect={false} textContentType='oneTimeCode'/>
 
           <AwesomeButton
             type="primary"
