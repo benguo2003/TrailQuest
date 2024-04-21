@@ -6,7 +6,7 @@ import Friends from './components/Friends'; // Import your Trails screen
 import Quests from './components/Quests'; // Import your Quests screen
 import Profile from './components/Profile'; // Import your Profile screen
 import Start from './components/Start'; // Import your Start screen
-import SignUp from './components/SignUp';
+import SignUp from './components/SignUp'; // Import your SignUp screen
 
 
 const Stack = createStackNavigator();
