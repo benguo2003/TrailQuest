@@ -1,7 +1,8 @@
 import React from 'react';
-import { View, StatusBar, Image, TouchableOpacity, Text, StyleSheet, TextInput, Dimensions} from 'react-native';
+import { View, StatusBar, Image, TouchableOpacity, Text, StyleSheet, TextInput, Dimensions, ScrollView, FlatList} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import AwesomeButton from "react-native-really-awesome-button";
+import Navbar from './Navbar'; // Import Navbar
+import { useFonts, RobotoSlab_600SemiBold } from '@expo-google-fonts/roboto-slab';
 
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
@@ -9,6 +10,25 @@ const screenHeight = Dimensions.get('window').height;
 function FriendsScreen() {
   const navigation = useNavigation();
 
+  let [fontsLoaded, fontError] = useFonts({
+    RobotoSlab_600SemiBold,
+  });
+
+  if (!fontsLoaded && !fontError) {
+    return null;
+  }
+
+  const friendsList = [
+    { name: 'Bradley', quest: 'Wayne Quest', percentage: '38%' },
+    { name: 'Gabby', quest: 'Malibu Quest', percentage: '56%' },
+    { name: 'Josiah', quest: 'Olympic Quest', percentage: '71%' },
+    { name: 'Jenny', quest: 'Runyon Quest', percentage: '3%' },
+    { name: 'Jenny', quest: 'Runyon Quest', percentage: '3%' },
+    { name: 'Jenny', quest: 'Runyon Quest', percentage: '3%' },
+    { name: 'Jenny', quest: 'Runyon Quest', percentage: '3%' },
+  ];
+  
+  
   return (
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" />
@@ -18,40 +38,23 @@ function FriendsScreen() {
           <Image source={require('../assets/trailQuestCompass.png')} style={styles.logoImage} /> 
         </View>
       </View>
-      <View style={styles.nav}>
-        <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-          <Text style={styles.navItem}>Home</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Quests')}>
-          <Text style={styles.navItem}>Quests</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
-          <Text style={styles.navItem}>Profile</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Friends')}>
-          <Text style={styles.navItem}>Friends</Text>
-        </TouchableOpacity>
-      </View>
       <View style={styles.main}>
-        <View style={styles.searchBox}>
-          <TextInput style={styles.input} placeholder="Search for a trail..." />
+        <ScrollView contentContainerStyle={styles.scrollView}>
+          {friendsList.map((friend, index) => (
+            <View style={styles.friend} key={index}>
+              <View>
+                <Image source={require('../assets/profileIcon.png')} style={styles.friendProfile} />
+                <Text style={styles.friendName}>{friend.name}</Text>
+                </View>
+                <View style={styles.friendInfo}>
+                  <Text style={styles.quest}>{friend.quest}</Text>
+                  <Text style={styles.percentage}>{friend.percentage}</Text>
+                </View>
+            </View>
+          ))}
+        </ScrollView>
         </View>
-        <AwesomeButton
-          type="primary"
-          onPress={() => navigation.navigate('Start')}
-          width={200} // Adjust as needed
-          height={50} // Adjust as needed
-          textSize={18} // Adjust as needed
-          backgroundColor="#4CAF50"
-          backgroundDarker="#388E3C"
-          backgroundShadow="#2E7D32"
-          textColor="#FFFFFF"
-          springRelease
-
-        >
-          See Trail Map
-        </AwesomeButton>
-      </View>
+        <Navbar navigation={navigation}/>
     </View>
   );
 }
@@ -80,12 +83,14 @@ const styles = StyleSheet.create({
       color: 'black',
     },
     main: {
-      flex: 1,
-      padding: 20,
       backgroundColor: '#FFFFFF',
+      flex: 1,
     },
-    searchBox: {
-      marginBottom: 20,
+    scrollView: {
+      flexGrow: 1,
+      padding: screenHeight * 0.02,
+      backgroundColor: '#FFFFFF',
+      // bottom: screenHeight * 0.1,
     },
     input: {
       height: 40,
@@ -109,10 +114,47 @@ const styles = StyleSheet.create({
     },
     logoText: {
       color: '#465306',
-      fontSize: 50,
+      fontSize: 45,
       textAlign: 'center',
       paddingLeft: screenWidth * 0.12, // Same width as the logoImage
+      fontFamily: 'RobotoSlab_600SemiBold',
     },
+    friend: {
+      flexDirection: 'row',
+      width: screenWidth * 0.8,
+      height: screenHeight * 0.15,
+      top: 30,
+    },
+    friendProfile: {
+      width: screenWidth * 0.20,
+      height: screenWidth * 0.20,
+      right:0,
+    },
+    friendName: {
+      color: "#465306",
+      left: 0,
+      top: 10,
+      textAlign: 'center',
+    },
+    friendInfo: {
+      backgroundColor: '#D2DFAF',
+      width: screenWidth * 0.6,
+      height: screenHeight * 0.12,
+      left: screenWidth * 0.1,
+      borderRadius: 20,
+      alignItems: "center",
+      justifyContent: "center",
+    },
+    quest: {
+      padding: screenWidth * 0.005,
+      color: "#465306",
+      fontSize: screenHeight * 0.03,
+    },
+    percentage: {
+      padding: screenWidth * 0.005,
+      color: "white",
+      fontSize: screenHeight * 0.04
+    }
 });
 
 export default FriendsScreen;

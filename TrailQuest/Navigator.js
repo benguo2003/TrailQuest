@@ -1,5 +1,5 @@
 import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createStackNavigator, CardStyleInterpolators } from '@react-navigation/stack';
 import SignIn from './components/SignIn';
 import Home from './components/Home';
 import Friends from './components/Friends'; // Import your Trails screen
@@ -13,14 +13,53 @@ const Stack = createStackNavigator();
 
 function AppNavigator() {
   return (
-    <Stack.Navigator initialRouteName="SignIn">
-      <Stack.Screen name="SignIn" component={SignIn} options={{ headerShown: false }}/>
-      <Stack.Screen name="Home" component={Home} options={{ headerShown: false }}/>
-      <Stack.Screen name="Friends" component={Friends} options={{ headerShown: false }}/>
-      <Stack.Screen name="Quests" component={Quests} options={{ headerShown: false }}/>
-      <Stack.Screen name="Profile" component={Profile} options={{ headerShown: false }}/>
-      <Stack.Screen name="Start" component={Start} options={{ headerShown: false }}/>
-      <Stack.Screen name="signup" component={signup} options={{ headerShown: false }}/>
+    
+    <Stack.Navigator 
+      initialRouteName="SignIn"
+      screenOptions={{
+        cardStyleInterpolator: CardStyleInterpolators.forFadeFromBottomAndroid,
+    }}>
+      <Stack.Screen 
+        name="SignIn" 
+        component={SignIn} 
+        options={{ headerShown: false, cardStyleInterpolator: CardStyleInterpolators.forFadeFromBottomAndroid
+      }}/>
+
+      <Stack.Screen 
+        name="Home" 
+        component={Home} 
+        options={{ headerShown: false, cardStyleInterpolator: CardStyleInterpolators.forFadeFromBottomAndroid 
+      }}/>
+
+      <Stack.Screen 
+        name="Friends" 
+        component={Friends} 
+        options={{ headerShown: false, cardStyleInterpolator: CardStyleInterpolators.forFadeFromBottomAndroid 
+      }}/>
+
+      <Stack.Screen 
+        name="Quests" 
+        component={Quests} 
+        options={{ headerShown: false, cardStyleInterpolator: CardStyleInterpolators.forFadeFromBottomAndroid
+      }}/>
+
+      <Stack.Screen 
+        name="Profile" 
+        component={Profile} 
+        options={{ headerShown: false, cardStyleInterpolator: CardStyleInterpolators.forFadeFromBottomAndroid 
+      }}/>
+
+      <Stack.Screen 
+        name="Start" 
+        component={Start} 
+        options={{ headerShown: false, cardStyleInterpolator: CardStyleInterpolators.forFadeFromBottomAndroid 
+      }}/>
+      
+      <Stack.Screen 
+        name="signup" 
+        component={signup} 
+        options={{ headerShown: false, cardStyleInterpolator: CardStyleInterpolators.forFadeFromBottomAndroid 
+      }}/>
     </Stack.Navigator>
   );
 }
