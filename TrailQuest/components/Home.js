@@ -32,7 +32,7 @@ function Home() {
       <View style={styles.main}>
         <View style={styles.profileContainer}>
           <Image source={require('../assets/profileIcon.png')} style={styles.profileIcon} />
-          <Text>{userData?.name}</Text>
+          <Text style={{padding: screenHeight * 0.01}}>{userData?.name}</Text>
         </View>
         <View style={styles.outerQuestContainer}>
           <View style={styles.questContainer}>
@@ -76,17 +76,16 @@ const styles = StyleSheet.create({
     height: 100,
     width: 100,
     borderRadius: 50,
-    overflow: 'hidden',
     marginBottom: 80,
     marginTop: 10,
-    position: 'relative',
+    alignItems: "center",
+    justifyContent: "center",
     flexDirection: 'column',
   },
   profileIcon: {
     height: '100%',
     width: '100%',
-    position: 'absolute',
-    top: 5,
+    paddingTop: screenHeight * 0.02,
     resizeMode: 'contain'
   },
   outerQuestContainer: {
