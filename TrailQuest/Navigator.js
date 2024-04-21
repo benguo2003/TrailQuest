@@ -8,9 +8,11 @@ import Profile from './components/Profile'; // Import your Profile screen
 import Start from './components/Start'; // Import your Start screen
 import SignUp from './components/SignUp';
 
+
 const Stack = createStackNavigator();
 
 function AppNavigator() {
+
   return (
     
     <Stack.Navigator 
