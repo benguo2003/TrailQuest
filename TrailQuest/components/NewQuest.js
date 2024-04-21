@@ -68,8 +68,8 @@ function NewQuest() {
             enabled
             >
       <View style={styles.main}>
-        <View style={{flex:1, padding: screenWidth * 0.02}}>
-            <View style={{padding: screenHeight * 0.015}}>
+        <View style={{flex:1}}>
+            <View>
                 <Slider
                     size="Default"
                     defaultValue={0}
@@ -84,14 +84,14 @@ function NewQuest() {
                     onValueChange={(value) => setRange(Math.round(value))}
                     />
             </View>
-            <Text style={{fontSize:20, fontFamily: 'RobotoSlab_600SemiBold', padding: screenWidth * 0.02}}>
+            <Text style={{fontSize:18, fontFamily: 'RobotoSlab_600SemiBold', padding: screenWidth * 0.02}}>
               Select your range in miles: {Math.round(range)}
             </Text>
-            <Text style={{fontSize:20, fontFamily: 'RobotoSlab_600SemiBold', padding: screenWidth * 0.02}}>Provide your gear list:</Text>
+            <Text style={{fontSize:18, fontFamily: 'RobotoSlab_600SemiBold', padding: screenWidth * 0.02}}>Provide your gear list:</Text>
             <View style={{justifyContent: 'center', alignItems: 'center'}}>
                 <TextInput placeholder="Type your list here" style={styles.input} autoCorrect={false} textContentType='oneTimeCode' textAlignVertical="top" onChangeText={setEquipment} value={equipment}/>
             </View>
-            <View style={{justifyContent: 'center', alignItems: 'center', padding: screenHeight * 0.015}}>
+            <View style={{justifyContent: 'center', alignItems: 'center'}}>
                 <AwesomeButton
                     width={screenWidth * 0.85} // Adjust as needed
                     height={50} // Adjust as needed
@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
     },
     input: {
         width: screenWidth * 0.85, 
-        height: screenHeight * 0.45,
+        height: screenHeight * 0.4,
         borderColor: '#4CAF50',
         backgroundColor: "white",
         borderWidth: 1,
