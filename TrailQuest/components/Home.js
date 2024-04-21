@@ -2,13 +2,21 @@ import React, { useEffect, useRef } from 'react';
 import { View, StatusBar, Image, TextInput, StyleSheet, Dimensions, Text } from 'react-native';
 import { useNavigation, useIsFocused} from '@react-navigation/native';
 import Navbar from './Navbar'; // Import Navbar
+import { useFonts, RobotoSlab_600SemiBold } from '@expo-google-fonts/roboto-slab';
 
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
 
 function Home() {
   const navigation = useNavigation();
+  
+  let [fontsLoaded, fontError] = useFonts({
+    RobotoSlab_600SemiBold,
+  });
 
+  if (!fontsLoaded && !fontError) {
+    return null;
+  }
   return (
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" />
