@@ -5,7 +5,7 @@ import { useFonts, RobotoSlab_600SemiBold } from '@expo-google-fonts/roboto-slab
 import { FIREBASE_AUTH } from '../backend/FirebaseConfig.ts';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 
-export default function SignUp({ navigation }) {
+export default function SignUserUp({ navigation }) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

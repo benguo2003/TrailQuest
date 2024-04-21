@@ -70,8 +70,8 @@ export default function SignIn({ navigation }) {
                 Log In
               </AwesomeButton>
             </>}
-            <View style={styles.SignUp}>
-                <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
+            <View style={styles.SignUserUp}>
+                <TouchableOpacity onPress={() => navigation.navigate('SignUserUp')}>
                   <Text style={styles.navItem}>Sign Up</Text>
                 </TouchableOpacity>
             </View>
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
     padding: 10,
     marginBottom: 30,
   },
-  SignUp: {
+  SignUserUp: {
    padding: 15,
   },
   logoImage: {
