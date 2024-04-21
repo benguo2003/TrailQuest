@@ -26,10 +26,13 @@ function QuestsScreen( {route} ) {
             trails: {
               trail1: route.params.questList[1],
               desc1: route.params.questList[4],
+              coor1: route.params.questList[5],
               trail2: route.params.questList[2],
-              desc2: route.params.questList[5],
+              desc2: route.params.questList[6],
+              coor2: route.params.questList[7],
               trail3: route.params.questList[3],
-              desc3: route.params.questList[6],
+              desc3: route.params.questList[8],
+              coor3: route.params.questList[9],
             }
       };
       const userEmail = userData.email;
@@ -50,6 +53,8 @@ function QuestsScreen( {route} ) {
     return null;
   }
 
+
+
   return (
       <View style={styles.container}>
         <StatusBar barStyle="dark-content" />
@@ -64,23 +69,25 @@ function QuestsScreen( {route} ) {
             <ScrollView contentContainerStyle={styles.cardContainer} showsVerticalScrollIndicator={false}>
               {userData?.questData.map((quest, index) => (
                 <View key={index} style={styles.card}>
-                  <Text style={styles.cardText}>{quest.questName}</Text>
-                  <Text style={styles.cardTextQuestNum}>{`1. ${quest.trails.trail1}\n2. ${quest.trails.trail2}\n3. ${quest.trails.trail3}`}</Text>
-                  <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-                  <CircularProgress
-                    value={Math.floor(Math.random() * 101)}
-                    radius={70}
-                    duration={500}
-                    maxValue={100}
-                    valueSuffix={'%'}
-                    titleColor={'black'}
-                    inActiveStrokeColor={'#080808'}
-                    inActiveStrokeOpacity={0.2}
-                    activeStrokeColor={'#D27D2D'}
-                    progressValueColor={'#000000'}
-                    titleStyle={{fontWeight: 'bold'}}
-                  />
-                  </View>
+                  <TouchableOpacity onPress={() => navigation.navigate('Quest', { quest: quest})}>
+                    <Text style={styles.cardText}>{quest.questName}</Text>
+                    <Text style={styles.cardTextQuestNum}>{`1. ${quest.trails.trail1}\n2. ${quest.trails.trail2}\n3. ${quest.trails.trail3}`}</Text>
+                    <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+                    <CircularProgress
+                      value={Math.floor(Math.random() * 101)}
+                      radius={70}
+                      duration={500}
+                      maxValue={100}
+                      valueSuffix={'%'}
+                      titleColor={'black'}
+                      inActiveStrokeColor={'#080808'}
+                      inActiveStrokeOpacity={0.2}
+                      activeStrokeColor={'#D27D2D'}
+                      progressValueColor={'#000000'}
+                      titleStyle={{fontWeight: 'bold'}}
+                    />
+                    </View>
+                  </TouchableOpacity>
                 </View>
               ))}
             </ScrollView>
@@ -198,7 +205,7 @@ const styles = StyleSheet.create({
     },
     cardText: {
       color: "#6E260E",
-      fontSize: screenHeight * 0.02,
+      fontSize: screenHeight * 0.025,
       paddingTop: screenHeight * 0.01,
       paddingBottom: screenHeight * 0.01,
       fontFamily: 'RobotoSlab_600SemiBold',

@@ -9,6 +9,7 @@ import Start from './components/Start'; // Import your Start screen
 import SignUserUp from './components/SignUserUp';
 import NewQuest from './components/NewQuest';
 import NewFriends from './components/NewFriends';
+import Quest from './components/Quest';
 
 
 const Stack = createNativeStackNavigator();
@@ -90,6 +91,14 @@ function AppNavigator() {
       <Stack.Screen 
         name="NewFriends" 
         component={NewFriends} 
+        screenOptions={{
+          animation: 'fade',
+          headerShown: false,
+      }}/>
+
+      <Stack.Screen 
+        name="Quest" 
+        component={Quest} 
         screenOptions={{
           animation: 'fade',
           headerShown: false,

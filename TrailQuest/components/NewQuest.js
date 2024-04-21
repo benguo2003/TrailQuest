@@ -34,12 +34,14 @@ function NewQuest() {
     const names = Object.values(trails).map(trail => trail.name).join(', ');
     const temp_names = Object.values(trails).map(trail => trail.name);
     const descriptions = Object.values(trails).map(trail => trail.description);
+    const coordinates = Object.values(trails).map(trail => trail.coordinates);
     const quest_list = await runPrompt(names, equipment);
     const trails_obj = [];
     for (let i = 0; i < temp_names.length; i++) {
       const trail = {
         name: temp_names[i],
-        description: descriptions[i]
+        description: descriptions[i],
+        coordinate: coordinates[i]
       };
       trails_obj.push(trail);
     }
@@ -47,6 +49,7 @@ function NewQuest() {
       for (let j = 0; j < trails_obj.length; j++) {
         if (quest_list[i] === trails_obj[j].name) {
           quest_list.push(descriptions[j]);
+          quest_list.push(coordinates[j]);
         }
       }
     }
