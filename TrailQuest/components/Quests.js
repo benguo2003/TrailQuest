@@ -2,6 +2,7 @@ import React from 'react';
 import { View, StatusBar, Image, TouchableOpacity, Text, StyleSheet, TextInput, Dimensions} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import AwesomeButton from "react-native-really-awesome-button";
+import { FlatList } from 'react-native';
 
 // Get the screen's width and height
 const screenWidth = Dimensions.get('window').width;
@@ -10,6 +11,29 @@ const screenHeight = Dimensions.get('window').height;
 function QuestsScreen() {
   const navigation = useNavigation();
 
+  const quests = [
+    {
+      id: 1,
+      title: 'Laguna Beach',
+      image: 'https://www.thatocgirl.com/wp-content/uploads/2020/12/west-ridge-trail-hike-to-top-of-the-world.jpg',
+    },
+    {
+      id: 2,
+      title: 'Santa Monica Beach',
+      image: 'https://www.thatocgirl.com/wp-content/uploads/2020/12/west-ridge-trail-hike-to-top-of-the-world.jpg',
+    },
+    {
+      id: 3,
+      title: 'Anaheim',
+      image: 'https://www.thatocgirl.com/wp-content/uploads/2020/12/west-ridge-trail-hike-to-top-of-the-world.jpg',
+    },
+    {
+      id: 4,
+      title: 'San Diego',
+      image: 'https://www.thatocgirl.com/wp-content/uploads/2020/12/west-ridge-trail-hike-to-top-of-the-world.jpg',
+    },
+  ];
+  
   return (
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" />
@@ -34,9 +58,6 @@ function QuestsScreen() {
         </TouchableOpacity>
       </View>
       <View style={styles.main}>
-        <View style={styles.searchBox}>
-          <TextInput style={styles.input} placeholder="Search for a trail..." />
-        </View>
         <AwesomeButton
           type="primary"
           onPress={() => navigation.navigate('Start')}
@@ -51,6 +72,17 @@ function QuestsScreen() {
         >
           See Trail Map
         </AwesomeButton>
+        <FlatList 
+          style={styles.cardContainer}
+          data = {quests}
+          renderItem={({ item: quest }) => (
+            <View style={styles.card}> 
+              <Image source={{ uri: quest.image }} style={styles.image} />
+              <Text style = {styles.cardText}>{quest.title}</Text>
+            </View>
+          )}
+          keyExtractor={(quest, index) => index.toString()}  
+        />
         <View style={styles.buttonContainer}>
           <AwesomeButton
             width={60}
@@ -111,7 +143,6 @@ const styles = StyleSheet.create({
       flexDirection: 'row',
       justifyContent: 'center',
       alignItems: 'center',
-
     },
     logoImage: {
       width: screenWidth * 0.045,
@@ -126,10 +157,37 @@ const styles = StyleSheet.create({
       textAlign: 'center',
       paddingLeft: screenWidth * 0.12, // Same width as the logoImage
     },
+
     buttonContainer: {
       position: 'absolute',
       bottom: 100,
       right: 20,
+    },
+
+    cardContainer: {
+      top: 10,
+      flex:1,
+      maxHeight: 0.5 * screenHeight,
+      padding: 10,
+    },
+    card: {
+      marginBottom: 10,
+      padding: 10,
+      backgroundColor: '#D2DFAF',
+      borderRadius: 10,
+      flexDirection: 'column',
+    },
+    image: {
+      width: '100%',
+      height: '70%',
+      resizeMode: 'cover',
+      borderRadius: 10,
+    },
+    cardText: {
+      color: "#465306",
+      fontSize: screenHeight * 0.03,
+      paddingTop: screenHeight * 0.01,
+      paddingBottom: screenHeight * 0.01,
     },
 });
 

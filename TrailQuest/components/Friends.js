@@ -156,7 +156,7 @@ const styles = StyleSheet.create({
     percentage: {
       padding: screenWidth * 0.005,
       color: "white",
-      fontSize: screenHeight * 0.04,
+      fontSize: screenHeight * 0.04
     }
 });
 
