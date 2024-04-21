@@ -5,7 +5,6 @@ import { useNavigation } from '@react-navigation/native';
 import AwesomeButton from "react-native-really-awesome-button";
 import Navbar from './Navbar'; // Import Navbar
 import { useFonts, RobotoSlab_600SemiBold } from '@expo-google-fonts/roboto-slab';
-import { ScreenHeight, ScreenWidth } from 'react-native-elements/dist/helpers';
 
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
@@ -13,7 +12,7 @@ const screenHeight = Dimensions.get('window').height;
 function NewQuest() {
   const navigation = useNavigation();
 
-  const [range, setRange] = useState(100);
+  const [range, setRange] = useState(0);
 
   let [fontsLoaded, fontError] = useFonts({
     RobotoSlab_600SemiBold,
