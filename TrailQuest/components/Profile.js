@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { View, StatusBar, Image, TouchableOpacity, Text, StyleSheet, TextInput, Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import AwesomeButton from "react-native-really-awesome-button";
@@ -6,12 +6,14 @@ import Navbar from './Navbar'; // Import Navbar
 import { useFonts, RobotoSlab_600SemiBold } from '@expo-google-fonts/roboto-slab';
 import { ScreenHeight, ScreenWidth } from 'react-native-elements/dist/helpers';
 import * as ImagePicker from 'expo-image-picker';
+import { UserContext } from '../backend/UserContext'; // Import your UserContext.js file
 
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
 
 function ProfileScreen() {
   const navigation = useNavigation();
+  const { userData } = useContext(UserContext);
   const [profileImage, setProfileImage] = useState(null);
 
   let [fontsLoaded, fontError] = useFonts({
@@ -47,12 +49,12 @@ function ProfileScreen() {
         </View>
       </View>
       <View style={styles.main}>
+      {profileImage && <Image source={{ uri: profileImage }} style={styles.profileIcon} />}
       <Image source={profileImage ? { uri: profileImage } : require('../assets/profileIcon.png')} style={styles.profileIcon} />
         <View style={styles.upload}>
-        <TouchableOpacity onPress={pickImage} style={styles.upload}>
+            <TouchableOpacity onPress={pickImage} style={styles.upload}>
               <Text style={styles.navItem}>Upload Photo</Text>
             </TouchableOpacity>
-            {profileImage && <Image source={{ uri: profileImage }} style={styles.profileIcon} />}
         </View>
         <View style={styles.container2}>
           <View style={styles.profileContainer}>
@@ -62,7 +64,7 @@ function ProfileScreen() {
             <Text style={styles.containerText}>Gears:</Text>
           </View>
           <View style={styles.profileInfo}>
-            <Text style={styles.containerText}>Abby White</Text>
+            <Text style={styles.containerText}>{userData?.name}</Text>
             <Text style={styles.containerText}>25</Text>
             <Text style={styles.containerText}>6'1</Text>
             <Text style={styles.containerText} numberOfLines={5}>Large backpack, moisture-wicking shirt, fleece pants and jacket</Text>
