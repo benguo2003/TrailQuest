@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import AwesomeButton from "react-native-really-awesome-button";
 import Navbar from './Navbar'; // Import Navbar
 import { useFonts, RobotoSlab_600SemiBold } from '@expo-google-fonts/roboto-slab';
-import { ScreenWidth } from 'react-native-elements/dist/helpers';
+import { ScreenHeight, ScreenWidth } from 'react-native-elements/dist/helpers';
 
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
@@ -42,7 +42,7 @@ function ProfileScreen() {
             <Text style={styles.containerText}>Abby White</Text>
             <Text style={styles.containerText}>25</Text>
             <Text style={styles.containerText}>6'1</Text>
-            <Text style={styles.containerText} numberOfLines={2}>Large backpack, fleece pants and jacket</Text>
+            <Text style={styles.containerText}>Large backpack, moisture-wicking shirt, fleece pants and jacket</Text>
           </View>
         </View>
         <View style={styles.buttons}>
@@ -102,21 +102,24 @@ const styles = StyleSheet.create({
       flexDirection: "row",
       alignItems: "center",
       justifyContent: "center",
+      padding: ScreenHeight * 0.08,
     },
     container2: {
       flexDirection: "row",
       padding: screenWidth * 0.05,
+      top: ScreenHeight * 0.02,
     },
     profileIcon: {
       width: screenWidth * 0.45,
       height: screenWidth * 0.45,
       marginLeft: ScreenWidth * 0.23,
+      top: ScreenHeight * 0.02,
     },
     profileContainer: {
       marginLeft: screenWidth * 0.03,
     },
     profileInfo: {
-      marginRight: screenWidth * 0.03,
+      marginRight: screenWidth * 0.2,
       marginLeft: screenWidth * 0.03,
     },
     containerText:{
