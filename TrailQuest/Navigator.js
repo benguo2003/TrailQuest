@@ -8,6 +8,8 @@ import Profile from './components/Profile'; // Import your Profile screen
 import Start from './components/Start'; // Import your Start screen
 import SignUserUp from './components/SignUserUp';
 import NewQuest from './components/NewQuest';
+import NewFriends from './components/NewFriends';
+
 
 const Stack = createStackNavigator();
 
@@ -65,6 +67,12 @@ function AppNavigator() {
       <Stack.Screen 
         name="NewQuest" 
         component={NewQuest} 
+        options={{ headerShown: false, cardStyleInterpolator: CardStyleInterpolators.forFadeFromBottomAndroid 
+      }}/>
+
+      <Stack.Screen 
+        name="NewFriends" 
+        component={NewFriends} 
         options={{ headerShown: false, cardStyleInterpolator: CardStyleInterpolators.forFadeFromBottomAndroid 
       }}/>
 
