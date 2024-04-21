@@ -1,13 +1,21 @@
 import React, { useContext } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import LocationContext from '../backend/LocationContext';
 import { useNavigation } from '@react-navigation/native';
 import AwesomeButton from "react-native-really-awesome-button";
 
-function StartScreen() {
+function StartScreen( { route }) {
+    const { quest, trailNum } = route.params;
     const location = useContext(LocationContext);
     const navigation = useNavigation();
+
+    const region = {
+        latitude: parseFloat(quest.trails[`lat${trailNum}`]),
+        longitude: parseFloat(quest.trails[`lon${trailNum}`]),
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421,
+      };
     return (
         <View style={styles.container}>
         <Text style={styles.title}>Start A Trail</Text>
@@ -15,8 +23,15 @@ function StartScreen() {
             <MapView
             provider={PROVIDER_GOOGLE}
             style={styles.map}
-            region={location}
+            region={region}
+          >
+            <Marker
+              coordinate={{
+                latitude: region.latitude,
+                longitude: region.longitude,
+              }}
             />
+          </MapView>
         )}
 
         <AwesomeButton
@@ -30,7 +45,6 @@ function StartScreen() {
           backgroundShadow="#2E7D32"
           textColor="#FFFFFF"
           springRelease
-          
         >
           Go back to Quests
         </AwesomeButton>

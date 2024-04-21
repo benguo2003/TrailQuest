@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StatusBar, Image, Alert, Text, StyleSheet, TextInput, Dimensions, KeyboardAvoidingView, Platform, ScrollView} from 'react-native';
+import { View, StatusBar, Image, Alert, Text, StyleSheet, TextInput, Dimensions, TouchableOpacity, KeyboardAvoidingView, Platform, ScrollView} from 'react-native';
 import Slider from '@react-native-community/slider';
 import { useNavigation } from '@react-navigation/native';
 import AwesomeButton from "react-native-really-awesome-button";
@@ -86,9 +86,28 @@ function Quest( {route} ) {
             <ScrollView contentContainerStyle={styles.cardContainer} showsVerticalScrollIndicator={false}>
             {[1, 2, 3].map((trailNumber) => (
                 <View key={trailNumber} style={styles.card}>
-                    <Text style={styles.cardTitle}>{quest.trails[`trail${trailNumber}`]}</Text>
-                    <Text style={styles.cardDescription}>{quest.trails[`desc${trailNumber}`]}</Text>
-                    <Text style={styles.cardCoordinates}>Coordinates: {quest.trails[`lat${trailNumber}`]}, {quest.trails[`lon${trailNumber}`]}</Text>
+                    <TouchableOpacity onPress = {() => navigation.navigate('Start', {quest: quest, trailNum: trailNumber})}>
+                        <Text style={styles.cardTitle}>{quest.trails[`trail${trailNumber}`]}</Text>
+                        <Text style={styles.cardDescription}>{quest.trails[`desc${trailNumber}`]}</Text>
+                        <Text style={styles.cardCoordinates}>Coordinates: {quest.trails[`lat${trailNumber}`]}, {quest.trails[`lon${trailNumber}`]}</Text>
+                    
+                    </TouchableOpacity>
+                    <AwesomeButton
+                    width={screenWidth * 0.85} // Adjust as needed
+                    height={50} // Adjust as needed
+                    textSize={20} // Adjust as needed
+                    onPress={() => navigation.navigate('Start', {quest: quest, trailNum: trailNumber})}
+                    backgroundColor="#4CAF50"
+                    backgroundDarker="#52a934"
+                    backgroundActive="#7cbe2d"
+                    backgroundShadow="#3f8228"
+                    backgroundProgress="#89cf35"
+                    borderColor="#5bbd3a"
+                    textColor="#FFFFFF"
+                    springRelease
+                    >
+                    Start Route
+                </AwesomeButton>
                 </View>
             ))}
             </ScrollView>
@@ -169,7 +188,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         flexDirection: 'column',
         width: 0.88 * screenWidth,
-        height: screenHeight * 0.18,
+        height: screenHeight * 0.28,
       },
       cardTextQuestNum: {
         color: "#4CAF50",
@@ -193,6 +212,21 @@ const styles = StyleSheet.create({
         fontFamily: 'RobotoSlab_600SemiBold',
         textDecorationLine: 'underline',
         marginBottom: 10,
+      },
+      cardTitle: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: '#333',
+        marginBottom: 5,
+      },
+      cardDescription: {
+        fontSize: 16,
+        color: '#5d3a1a',
+        marginBottom: 10,
+      },
+      cardCoordinates: {
+        fontSize: 14,
+        color: '#3f8228',
       },
 });
 
