@@ -21,7 +21,7 @@ function QuestsScreen() {
     },
     {
       id: 51,
-      title: 'Santa Monica Mountains',
+      title: 'Santa Monica Beach',
       image: 'https://www.thatocgirl.com/wp-content/uploads/2020/12/west-ridge-trail-hike-to-top-of-the-world.jpg',
     },
     {
