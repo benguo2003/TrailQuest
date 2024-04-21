@@ -30,7 +30,7 @@ export default function SignUserUp({ navigation }) {
       const user = response.user;
       if (user) {
         const userDocRef = doc(FIREBASE_DB, "users", lowerCaseEmail);
-        await setDoc(userDocRef, { name: name, email: lowerCaseEmail });
+        await setDoc(userDocRef, { name: name, email: lowerCaseEmail , questData: []});
       }
       navigation.navigate('SignIn');
       console.log(response);

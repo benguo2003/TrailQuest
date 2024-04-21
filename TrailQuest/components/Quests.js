@@ -1,26 +1,42 @@
 import React, { useState, useEffect }from 'react';
-import { View, StatusBar, Image, Text, StyleSheet, Dimensions, ActivityIndicator, ScrollView} from 'react-native';
+import { View, StatusBar, Image, Text, StyleSheet, Dimensions, TouchableOpacity, ScrollView} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import AwesomeButton from "react-native-really-awesome-button";
-import Navbar from './Navbar'; // Import Navbar
+import Navbar from './Navbar';
 import { useFonts, RobotoSlab_600SemiBold } from '@expo-google-fonts/roboto-slab';
+import { useContext } from 'react';
+import { UserContext } from '../backend/UserContext';
+import { updateDocument } from '../backend/updateDoc';
+
 
 // Get the screen's width and height
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
 
 function QuestsScreen( {route} ) {
+  const { userData, setUserData } = useContext(UserContext);
   const navigation = useNavigation();
-  const [quests, setQuests] = useState([]); // create a state for quests
 
   useEffect(() => {
-    console.log('route.params changed:', route.params); // log route.params when it changes
-  
-    if (route.params && route.params.questList && route.params.questList.length > 0 && route.params.questList[0].length > 0) {
-      console.log('updating quests with:', route.params.questList); // log route.params.questList before updating quests
-      setQuests(prevQuests => {
-        console.log('previous quests:', prevQuests); // log previous quests before updating
-        return [...prevQuests, ...route.params.questList];
+    if (route.params && route.params.questList && route.params.questList.length > 0) {
+      console.log(route.params.questList);
+      const questObject = {
+            questName: route.params.questList[0],
+            trails: {
+              trail1: route.params.questList[1],
+              desc1: route.params.questList[4],
+              trail2: route.params.questList[2],
+              desc2: route.params.questList[5],
+              trail3: route.params.questList[3],
+              desc3: route.params.questList[6],
+            }
+      };
+      const userEmail = userData.email;
+      updateDocument('users', userEmail, questObject).then(() => {
+        setUserData({
+          ...userData,
+          questData: [...userData.questData, questObject]
+        });
       });
     }
   }, [route.params]);
@@ -47,11 +63,15 @@ function QuestsScreen( {route} ) {
         <View style={styles.main}>
           <View style={{flex: 1}}>
             <ScrollView contentContainerStyle={styles.cardContainer}>
-              {quests.length > 0 && quests[0].length > 0 && quests.map((quest, index) => (
+              {userData?.questData.map((quest, index) => (
                 <View key={index} style={styles.card}>
-                  <Text style={styles.cardText}>{quest[0]}</Text>
+                  <TouchableOpacity onPress={() => {
+                    navigation.navigate('Home')
+                  }}>
+                    <Text style={styles.cardText}>{quest.questName}</Text>
+                  </TouchableOpacity>
                   <Image source={{ uri: random_url }} style={styles.image}/>
-                  <Text style={styles.cardTextQuestNum}>{`${quest[1]}, ${quest[2]}, ${quest[3]}`}</Text>
+                  <Text style={styles.cardTextQuestNum}>{`${quest.trails.trail1}, ${quest.trails.trail2}, ${quest.trails.trail3}`}</Text>
                 </View>
               ))}
             </ScrollView>
@@ -177,5 +197,14 @@ const styles = StyleSheet.create({
       marginBottom: 10, // or add marginTop to the text below the image
     },
 });
+
+const Details = ({ route }) => {
+  const { questName } = route.params;
+  return (
+    <SharedElement id={`item.${questName}.name`}>
+      <Animated.Text>{questName}</Animated.Text>
+    </SharedElement>
+  );
+};
 
 export default QuestsScreen;

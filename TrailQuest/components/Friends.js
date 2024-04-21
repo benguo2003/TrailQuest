@@ -3,6 +3,7 @@ import { View, StatusBar, Image, TouchableOpacity, Text, StyleSheet, TextInput, 
 import { useNavigation } from '@react-navigation/native';
 import Navbar from './Navbar'; // Import Navbar
 import { useFonts, RobotoSlab_600SemiBold } from '@expo-google-fonts/roboto-slab';
+import AwesomeButton from "react-native-really-awesome-button";
 
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
@@ -53,6 +54,18 @@ function FriendsScreen() {
             </View>
           ))}
         </ScrollView>
+        <View style={styles.addButtonContainer}>
+          <AwesomeButton
+            type="primary"
+            onPress={() => navigation.navigate('NewQuest')}
+            width={60}
+            height={60}
+            borderRadius={30}
+            backgroundColor="#FF6347"
+          >
+            <Text style={{ color: 'white', fontFamily: 'RobotoSlab_600SemiBold', fontSize: 30 }}>+</Text>
+          </AwesomeButton>
+        </View>
         </View>
         <Navbar navigation={navigation}/>
     </View>
@@ -154,7 +167,12 @@ const styles = StyleSheet.create({
       padding: screenWidth * 0.005,
       color: "white",
       fontSize: screenHeight * 0.04
-    }
+    },
+    addButtonContainer: {
+      position: 'absolute',
+      bottom: 25,
+      right: 20,
+    },
 });
 
 export default FriendsScreen;
