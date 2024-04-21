@@ -1,0 +1,160 @@
+import React, { useState } from 'react';
+import { View, StatusBar, Image, TouchableOpacity, Text, StyleSheet, TextInput, Dimensions, KeyboardAvoidingView, Platform } from 'react-native';
+import Slider from '@react-native-community/slider';
+import { useNavigation } from '@react-navigation/native';
+import AwesomeButton from "react-native-really-awesome-button";
+import Navbar from './Navbar'; // Import Navbar
+import { useFonts, RobotoSlab_600SemiBold } from '@expo-google-fonts/roboto-slab';
+import { fetchData } from '../backend/trails';
+import { FIREBASE_AUTH, FIREBASE_DB } from '../backend/FirebaseConfig.ts';
+import { doc, getDoc } from "firebase/firestore";
+import { UserContext } from '../backend/UserContext';
+
+const screenWidth = Dimensions.get('window').width;
+const screenHeight = Dimensions.get('window').height;
+
+function NewFriends() {
+  const navigation = useNavigation();
+  const [loading, setLoading] = useState(false);
+  const [email, setEmail] = useState('');
+
+  let [fontsLoaded, fontError] = useFonts({
+    RobotoSlab_600SemiBold,
+  });
+
+  if (!fontsLoaded && !fontError) {
+    return null;
+  }
+
+  const Add = async () => {
+    setLoading(true);
+    try {
+      const lowerCaseEmail = email.toLowerCase();
+      
+      const userDocRef = doc(FIREBASE_DB, "users", lowerCaseEmail);
+      const userDocSnap = await getDoc(userDocRef);
+
+      if (userDocSnap.exists()) {
+        const userData = userDocSnap.data();
+        console.log("Friend added!");
+      } else {
+        console.log("Hmm, that's odd. No such user exists!");
+      }
+    } catch (error) {
+      console.log(error);
+      alert('Invalid email or password! Try again!')
+    }
+    setLoading(false);
+  }
+
+
+  return (
+    <View style={styles.container}>
+      <StatusBar barStyle="dark-content" />
+      <View style={styles.header}>
+        <View style={styles.logoContainer}>
+          <Text style={styles.logoText}>Add Friend</Text>
+          <Image source={require('../assets/trailQuestCompass.png')} style={styles.logoImage} /> 
+        </View>
+      </View>
+      <KeyboardAvoidingView 
+            style={styles.main} 
+            behavior={Platform.OS === "ios" ? "padding" : "height"} 
+            enabled
+            >
+      <View style={styles.main}>
+        <View style={{flex:1}}>
+            
+            <Text style={{fontSize:18, fontFamily: 'RobotoSlab_600SemiBold', padding: screenWidth * 0.02}}>
+              Search by email:</Text>
+            <View style={{justifyContent: 'center', alignItems: 'center'}}>
+                <TextInput placeholder="Email" style={styles.input} autoCorrect={false} textContentType='oneTimeCode' textAlignVertical="top"/>
+
+            </View>
+            <View style={{justifyContent: 'center', alignItems: 'center'}}>
+                <AwesomeButton
+                    onPress={Add}
+                    width={screenWidth * 0.5} // Adjust as needed
+                    height={50} // Adjust as needed
+                    textSize={20} // Adjust as needed
+                    backgroundColor="#4CAF50"
+                    backgroundDarker="#52a934"
+                    backgroundActive="#7cbe2d"
+                    backgroundShadow="#3f8228"
+                    backgroundProgress="#89cf35"
+                    borderColor="#5bbd3a"
+                    textColor="#FFFFFF"
+                    springRelease
+                    >
+                    + Add New Friend
+                </AwesomeButton>
+            </View>
+        </View>
+      </View>
+      </KeyboardAvoidingView>
+      <Navbar navigation={navigation}/>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      paddingTop: 50,
+      backgroundColor: '#F7FEDB',
+    },
+    header: {
+      backgroundColor: '#F7FEDB',
+      alignItems: 'center',
+    },
+    headerText: {
+      color: 'white',
+      fontSize: 20,
+    },
+    nav: {
+      flexDirection: 'row',
+      justifyContent: 'space-around',
+      padding: 20,
+      backgroundColor: '#D2DFAF',
+    },
+    navItem: {
+      color: 'black',
+    },
+    main: {
+      flex: 1,
+      padding: 12,
+      backgroundColor: '#FFFFFF',
+    },
+    input: {
+        width: screenWidth * 0.85, 
+        height: screenHeight * 0.05,
+        borderColor: '#4CAF50',
+        backgroundColor: "white",
+        borderWidth: 1,
+        borderRadius: 10,
+        padding: 15,
+        marginBottom: 18,
+    },
+    logoContainer: {
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center',
+      padding: screenHeight * 0.02,
+    },
+    logoImage: {
+      width: screenWidth * 0.045,
+      height: screenHeight * 0.045,
+      resizeMode: 'contain',
+      marginRight: screenWidth * 0.07, // Same width as the logoImage
+      top: -12
+    },
+    logoText: {
+      color: '#465306',
+      fontSize: 45,
+      textAlign: 'center',
+      paddingLeft: screenWidth * 0.12, // Same width as the logoImage
+      fontFamily: 'RobotoSlab_600SemiBold',
+    },
+});
+
+export default NewFriends;

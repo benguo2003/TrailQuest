@@ -8,6 +8,7 @@ export const runPrompt = async (trails, gear) => {
                     I only want one single line of output, in the following format:\n
                     "Name_of_Quest: Trail_1, Trail_2, Trail_3". Make sure the name of the\n
                     quest has no underscores or commas, but have spaces between words and each word is a real English word.\n
+                    For example, the name of the quest should never be GreatHikingAdventure, and should instead be Great Hiking Adventure.\n
                     In addition, please make sure each trail is separated by a comma, has no underscores in their names,\n
                     and do not give any additional output beyond what I have requested. Please also don't label anything extra,\n
                     just provide the output in the format I have requested. Please don't have ANY content that isn't part of the format that was specified.\n

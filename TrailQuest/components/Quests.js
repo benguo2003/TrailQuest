@@ -1,62 +1,56 @@
 import React, { useState, useEffect }from 'react';
-import { View, StatusBar, Image, Text, StyleSheet, Dimensions, ActivityIndicator, ScrollView} from 'react-native';
+import { View, StatusBar, Image, Text, StyleSheet, Dimensions, TouchableOpacity, ScrollView} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import AwesomeButton from "react-native-really-awesome-button";
-import Navbar from './Navbar'; // Import Navbar
+import Navbar from './Navbar';
 import { useFonts, RobotoSlab_600SemiBold } from '@expo-google-fonts/roboto-slab';
+import { useContext } from 'react';
+import { UserContext } from '../backend/UserContext';
+import { updateDocument } from '../backend/updateDoc';
+import { AnimatedCircularProgress } from 'react-native-circular-progress';
+import CircularProgress from 'react-native-circular-progress-indicator';
 
 // Get the screen's width and height
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
 
-function QuestsScreen() {
+function QuestsScreen( {route} ) {
+  const { userData, setUserData } = useContext(UserContext);
   const navigation = useNavigation();
-  const [isLoading, setIsLoading] = useState(true);
 
-  const quests = [
-    {
-      id: 50,
-      title: 'Laguna Beach',
-      image: 'https://www.thatocgirl.com/wp-content/uploads/2020/12/west-ridge-trail-hike-to-top-of-the-world.jpg',
-    },
-    {
-      id: 51,
-      title: 'Santa Monica Beach',
-      image: 'https://www.thatocgirl.com/wp-content/uploads/2020/12/west-ridge-trail-hike-to-top-of-the-world.jpg',
-    },
-    {
-      id: 52,
-      title: 'Anaheim',
-      image: 'https://www.thatocgirl.com/wp-content/uploads/2020/12/west-ridge-trail-hike-to-top-of-the-world.jpg',
-    },
-    {
-      id: 53,
-      title: 'San Diego',
-      image: 'https://www.thatocgirl.com/wp-content/uploads/2020/12/west-ridge-trail-hike-to-top-of-the-world.jpg',
-    },
-  ];
-  
+  useEffect(() => {
+    if (route.params && route.params.questList && route.params.questList.length > 0) {
+      console.log(route.params.questList);
+      const questObject = {
+            questName: route.params.questList[0],
+            trails: {
+              trail1: route.params.questList[1],
+              desc1: route.params.questList[4],
+              trail2: route.params.questList[2],
+              desc2: route.params.questList[5],
+              trail3: route.params.questList[3],
+              desc3: route.params.questList[6],
+            }
+      };
+      const userEmail = userData.email;
+      updateDocument('users', userEmail, questObject).then(() => {
+        setUserData({
+          ...userData,
+          questData: [...userData.questData, questObject]
+        });
+      });
+    }
+  }, [route.params]);
+
   let [fontsLoaded, fontError] = useFonts({
     RobotoSlab_600SemiBold,
   });
-
-  useEffect(() => {
-    const prefetchImages = quests.map(quest => Image.prefetch(quest.image));
-    Promise.all(prefetchImages)
-      .then(() => setIsLoading(false))
-      .catch(error => console.log(error));
-  }, []);
 
   if (!fontsLoaded && !fontError) {
     return null;
   }
 
   return (
-    isLoading ? (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <ActivityIndicator size="large" color="#006400" />
-      </View>
-    ) : (
       <View style={styles.container}>
         <StatusBar barStyle="dark-content" />
         <View style={styles.header}>
@@ -67,12 +61,26 @@ function QuestsScreen() {
         </View>
         <View style={styles.main}>
           <View style={{flex: 1}}>
-            <ScrollView contentContainerStyle={styles.cardContainer}>
-              {quests.map((quest, index) => (
+            <ScrollView contentContainerStyle={styles.cardContainer} showsVerticalScrollIndicator={false}>
+              {userData?.questData.map((quest, index) => (
                 <View key={index} style={styles.card}>
-                  <Text style={styles.cardTextQuestNum}>Quest {index + 1}</Text>
-                  <Image source={{ uri: quest.image }} style={styles.image}/>
-                  <Text style = {styles.cardText}>{quest.title}</Text>
+                  <Text style={styles.cardText}>{quest.questName}</Text>
+                  <Text style={styles.cardTextQuestNum}>{`1. ${quest.trails.trail1}\n2. ${quest.trails.trail2}\n3. ${quest.trails.trail3}`}</Text>
+                  <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+                  <CircularProgress
+                    value={Math.floor(Math.random() * 101)}
+                    radius={70}
+                    duration={500}
+                    maxValue={100}
+                    valueSuffix={'%'}
+                    titleColor={'black'}
+                    inActiveStrokeColor={'#080808'}
+                    inActiveStrokeOpacity={0.2}
+                    activeStrokeColor={'#D27D2D'}
+                    progressValueColor={'#000000'}
+                    titleStyle={{fontWeight: 'bold'}}
+                  />
+                  </View>
                 </View>
               ))}
             </ScrollView>
@@ -94,8 +102,7 @@ function QuestsScreen() {
       
       <Navbar navigation={navigation}/>
     </View>
-    )
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -173,29 +180,40 @@ const styles = StyleSheet.create({
       borderRadius: 10,
       flexDirection: 'column',
       width: 0.9 * screenWidth,
-      height: screenHeight * 0.4,
+      height: screenHeight * 0.38,
     },
     cardTextQuestNum: {
-      color: "#465306",
+      color: "#4CAF50",
       fontSize: screenHeight * 0.02,
       paddingTop: screenHeight * 0.01,
       paddingBottom: screenHeight * 0.01,
       fontFamily: 'RobotoSlab_600SemiBold',
-      textDecorationLine: 'underline',
+      marginBottom: 15,
     },
     image: {
       width: '100%',
-      height: '70%',
+      height: '60%',
       resizeMode: 'cover',
       borderRadius: 10,
     },
     cardText: {
-      color: "#465306",
+      color: "#6E260E",
       fontSize: screenHeight * 0.03,
       paddingTop: screenHeight * 0.01,
       paddingBottom: screenHeight * 0.01,
       fontFamily: 'RobotoSlab_600SemiBold',
+      textDecorationLine: 'underline',
+      marginBottom: 10,
     },
 });
+
+const Details = ({ route }) => {
+  const { questName } = route.params;
+  return (
+    <SharedElement id={`item.${questName}.name`}>
+      <Animated.Text>{questName}</Animated.Text>
+    </SharedElement>
+  );
+};
 
 export default QuestsScreen;

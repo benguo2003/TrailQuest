@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { View, StatusBar, Image, TouchableOpacity, Text, StyleSheet, TextInput, Dimensions, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, StatusBar, Image, Alert, Text, StyleSheet, TextInput, Dimensions, KeyboardAvoidingView, Platform } from 'react-native';
 import Slider from '@react-native-community/slider';
 import { useNavigation } from '@react-navigation/native';
 import AwesomeButton from "react-native-really-awesome-button";
 import Navbar from './Navbar'; // Import Navbar
 import { useFonts, RobotoSlab_600SemiBold } from '@expo-google-fonts/roboto-slab';
 import { fetchData } from '../backend/trails';
+import runPrompt from '../backend/chat.js';  // Import the sendMessage function
 
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
@@ -14,6 +15,7 @@ function NewQuest() {
   const navigation = useNavigation();
 
   const [range, setRange] = useState(0);
+  const [equipment, setEquipment] = useState('');
 
   let [fontsLoaded, fontError] = useFonts({
     RobotoSlab_600SemiBold,
@@ -24,8 +26,31 @@ function NewQuest() {
   }
 
   const generateTrails = async () => {
+    if (!equipment) {
+      Alert.alert('Error', 'Please type your list');
+      return;
+    }
     const trails = await fetchData();
-    console.log(trails);
+    const names = Object.values(trails).map(trail => trail.name).join(', ');
+    const temp_names = Object.values(trails).map(trail => trail.name);
+    const descriptions = Object.values(trails).map(trail => trail.description);
+    const quest_list = await runPrompt(names, equipment);
+    const trails_obj = [];
+    for (let i = 0; i < temp_names.length; i++) {
+      const trail = {
+        name: temp_names[i],
+        description: descriptions[i]
+      };
+      trails_obj.push(trail);
+    }
+    for (let i = 0; i < quest_list.length; i++) {
+      for (let j = 0; j < trails_obj.length; j++) {
+        if (quest_list[i] === trails_obj[j].name) {
+          quest_list.push(descriptions[j]);
+        }
+      }
+    }
+    navigation.navigate('Quests', { questList: quest_list });
   }
 
   return (
@@ -64,7 +89,7 @@ function NewQuest() {
             </Text>
             <Text style={{fontSize:18, fontFamily: 'RobotoSlab_600SemiBold', padding: screenWidth * 0.02}}>Provide your gear list:</Text>
             <View style={{justifyContent: 'center', alignItems: 'center'}}>
-                <TextInput placeholder="Type your list here" style={styles.input} autoCorrect={false} textContentType='oneTimeCode' textAlignVertical="top"/>
+                <TextInput placeholder="Type your list here" style={styles.input} autoCorrect={false} textContentType='oneTimeCode' textAlignVertical="top" onChangeText={setEquipment} value={equipment}/>
             </View>
             <View style={{justifyContent: 'center', alignItems: 'center'}}>
                 <AwesomeButton
