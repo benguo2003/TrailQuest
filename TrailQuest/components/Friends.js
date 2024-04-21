@@ -83,8 +83,9 @@ const styles = StyleSheet.create({
       color: 'black',
     },
     main: {
-      backgroundColor: '#FFFFFF',
       flex: 1,
+      padding: 20,
+      backgroundColor: '#FFFFFF',
     },
     scrollView: {
       flexGrow: 1,
@@ -123,7 +124,6 @@ const styles = StyleSheet.create({
       flexDirection: 'row',
       width: screenWidth * 0.8,
       height: screenHeight * 0.15,
-      top: 30,
     },
     friendProfile: {
       width: screenWidth * 0.20,
@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
       backgroundColor: '#D2DFAF',
       width: screenWidth * 0.6,
       height: screenHeight * 0.12,
-      left: screenWidth * 0.1,
+      left: screenWidth * 0.05,
       borderRadius: 20,
       alignItems: "center",
       justifyContent: "center",

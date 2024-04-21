@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, TextInput, Image, StyleSheet, TouchableOpacity, Text, KeyboardAvoidingView, Platform, ActivityIndicator} from 'react-native';
 import AwesomeButton from "react-native-really-awesome-button";
 import { useFonts, RobotoSlab_600SemiBold } from '@expo-google-fonts/roboto-slab';
