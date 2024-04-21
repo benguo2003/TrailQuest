@@ -9,54 +9,33 @@ import { useFonts, RobotoSlab_600SemiBold } from '@expo-google-fonts/roboto-slab
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
 
-function QuestsScreen() {
+function QuestsScreen( {route} ) {
   const navigation = useNavigation();
-  const [isLoading, setIsLoading] = useState(true);
+  const [quests, setQuests] = useState([]); // create a state for quests
 
-  const quests = [
-    {
-      id: 50,
-      title: 'Laguna Beach',
-      image: 'https://www.thatocgirl.com/wp-content/uploads/2020/12/west-ridge-trail-hike-to-top-of-the-world.jpg',
-    },
-    {
-      id: 51,
-      title: 'Santa Monica Beach',
-      image: 'https://www.thatocgirl.com/wp-content/uploads/2020/12/west-ridge-trail-hike-to-top-of-the-world.jpg',
-    },
-    {
-      id: 52,
-      title: 'Anaheim',
-      image: 'https://www.thatocgirl.com/wp-content/uploads/2020/12/west-ridge-trail-hike-to-top-of-the-world.jpg',
-    },
-    {
-      id: 53,
-      title: 'San Diego',
-      image: 'https://www.thatocgirl.com/wp-content/uploads/2020/12/west-ridge-trail-hike-to-top-of-the-world.jpg',
-    },
-  ];
+  useEffect(() => {
+    console.log('route.params changed:', route.params); // log route.params when it changes
   
+    if (route.params && route.params.questList && route.params.questList.length > 0 && route.params.questList[0].length > 0) {
+      console.log('updating quests with:', route.params.questList); // log route.params.questList before updating quests
+      setQuests(prevQuests => {
+        console.log('previous quests:', prevQuests); // log previous quests before updating
+        return [...prevQuests, ...route.params.questList];
+      });
+    }
+  }, [route.params]);
+
+  const random_url = 'https://www.thatocgirl.com/wp-content/uploads/2020/12/west-ridge-trail-hike-to-top-of-the-world.jpg';
+
   let [fontsLoaded, fontError] = useFonts({
     RobotoSlab_600SemiBold,
   });
-
-  useEffect(() => {
-    const prefetchImages = quests.map(quest => Image.prefetch(quest.image));
-    Promise.all(prefetchImages)
-      .then(() => setIsLoading(false))
-      .catch(error => console.log(error));
-  }, []);
 
   if (!fontsLoaded && !fontError) {
     return null;
   }
 
   return (
-    isLoading ? (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <ActivityIndicator size="large" color="#006400" />
-      </View>
-    ) : (
       <View style={styles.container}>
         <StatusBar barStyle="dark-content" />
         <View style={styles.header}>
@@ -68,11 +47,11 @@ function QuestsScreen() {
         <View style={styles.main}>
           <View style={{flex: 1}}>
             <ScrollView contentContainerStyle={styles.cardContainer}>
-              {quests.map((quest, index) => (
+              {quests.length > 0 && quests[0].length > 0 && quests.map((quest, index) => (
                 <View key={index} style={styles.card}>
-                  <Text style={styles.cardTextQuestNum}>Quest {index + 1}</Text>
-                  <Image source={{ uri: quest.image }} style={styles.image}/>
-                  <Text style = {styles.cardText}>{quest.title}</Text>
+                  <Text style={styles.cardText}>{quest[0]}</Text>
+                  <Image source={{ uri: random_url }} style={styles.image}/>
+                  <Text style={styles.cardTextQuestNum}>{`${quest[1]}, ${quest[2]}, ${quest[3]}`}</Text>
                 </View>
               ))}
             </ScrollView>
@@ -94,8 +73,7 @@ function QuestsScreen() {
       
       <Navbar navigation={navigation}/>
     </View>
-    )
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -173,7 +151,7 @@ const styles = StyleSheet.create({
       borderRadius: 10,
       flexDirection: 'column',
       width: 0.9 * screenWidth,
-      height: screenHeight * 0.4,
+      height: screenHeight * 0.5,
     },
     cardTextQuestNum: {
       color: "#465306",
@@ -181,11 +159,11 @@ const styles = StyleSheet.create({
       paddingTop: screenHeight * 0.01,
       paddingBottom: screenHeight * 0.01,
       fontFamily: 'RobotoSlab_600SemiBold',
-      textDecorationLine: 'underline',
+      marginTop: 10, // add marginBottom to the text above the image
     },
     image: {
       width: '100%',
-      height: '70%',
+      height: '60%',
       resizeMode: 'cover',
       borderRadius: 10,
     },
@@ -195,6 +173,8 @@ const styles = StyleSheet.create({
       paddingTop: screenHeight * 0.01,
       paddingBottom: screenHeight * 0.01,
       fontFamily: 'RobotoSlab_600SemiBold',
+      textDecorationLine: 'underline',
+      marginBottom: 10, // or add marginTop to the text below the image
     },
 });
 
