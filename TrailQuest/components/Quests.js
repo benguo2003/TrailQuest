@@ -7,7 +7,8 @@ import { useFonts, RobotoSlab_600SemiBold } from '@expo-google-fonts/roboto-slab
 import { useContext } from 'react';
 import { UserContext } from '../backend/UserContext';
 import { updateDocument } from '../backend/updateDoc';
-
+import { AnimatedCircularProgress } from 'react-native-circular-progress';
+import CircularProgress from 'react-native-circular-progress-indicator';
 
 // Get the screen's width and height
 const screenWidth = Dimensions.get('window').width;
@@ -41,8 +42,6 @@ function QuestsScreen( {route} ) {
     }
   }, [route.params]);
 
-  const random_url = 'https://www.thatocgirl.com/wp-content/uploads/2020/12/west-ridge-trail-hike-to-top-of-the-world.jpg';
-
   let [fontsLoaded, fontError] = useFonts({
     RobotoSlab_600SemiBold,
   });
@@ -62,16 +61,26 @@ function QuestsScreen( {route} ) {
         </View>
         <View style={styles.main}>
           <View style={{flex: 1}}>
-            <ScrollView contentContainerStyle={styles.cardContainer}>
+            <ScrollView contentContainerStyle={styles.cardContainer} showsVerticalScrollIndicator={false}>
               {userData?.questData.map((quest, index) => (
                 <View key={index} style={styles.card}>
-                  <TouchableOpacity onPress={() => {
-                    navigation.navigate('Home')
-                  }}>
-                    <Text style={styles.cardText}>{quest.questName}</Text>
-                  </TouchableOpacity>
-                  <Image source={{ uri: random_url }} style={styles.image}/>
-                  <Text style={styles.cardTextQuestNum}>{`${quest.trails.trail1}, ${quest.trails.trail2}, ${quest.trails.trail3}`}</Text>
+                  <Text style={styles.cardText}>{quest.questName}</Text>
+                  <Text style={styles.cardTextQuestNum}>{`1. ${quest.trails.trail1}\n2. ${quest.trails.trail2}\n3. ${quest.trails.trail3}`}</Text>
+                  <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+                  <CircularProgress
+                    value={Math.floor(Math.random() * 101)}
+                    radius={70}
+                    duration={500}
+                    maxValue={100}
+                    valueSuffix={'%'}
+                    titleColor={'black'}
+                    inActiveStrokeColor={'#080808'}
+                    inActiveStrokeOpacity={0.2}
+                    activeStrokeColor={'#D27D2D'}
+                    progressValueColor={'#000000'}
+                    titleStyle={{fontWeight: 'bold'}}
+                  />
+                  </View>
                 </View>
               ))}
             </ScrollView>
@@ -171,15 +180,15 @@ const styles = StyleSheet.create({
       borderRadius: 10,
       flexDirection: 'column',
       width: 0.9 * screenWidth,
-      height: screenHeight * 0.5,
+      height: screenHeight * 0.38,
     },
     cardTextQuestNum: {
-      color: "#465306",
+      color: "#4CAF50",
       fontSize: screenHeight * 0.02,
       paddingTop: screenHeight * 0.01,
       paddingBottom: screenHeight * 0.01,
       fontFamily: 'RobotoSlab_600SemiBold',
-      marginTop: 10, // add marginBottom to the text above the image
+      marginBottom: 15,
     },
     image: {
       width: '100%',
@@ -188,13 +197,13 @@ const styles = StyleSheet.create({
       borderRadius: 10,
     },
     cardText: {
-      color: "#465306",
+      color: "#6E260E",
       fontSize: screenHeight * 0.03,
       paddingTop: screenHeight * 0.01,
       paddingBottom: screenHeight * 0.01,
       fontFamily: 'RobotoSlab_600SemiBold',
       textDecorationLine: 'underline',
-      marginBottom: 10, // or add marginTop to the text below the image
+      marginBottom: 10,
     },
 });
 
