@@ -67,6 +67,8 @@ function QuestsScreen() {
 
         <View style={styles.buttonContainer}>
           <AwesomeButton
+            type="primary"
+            onPress={() => navigation.navigate('NewQuest')}
             width={60}
             height={60}
             borderRadius={30}
