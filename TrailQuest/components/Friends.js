@@ -41,10 +41,10 @@ function FriendsScreen() {
               <View style={styles.friend} key={index}>
                 <View>
                   <Image source={require('../assets/profileIcon.png')} style={styles.friendProfile} />
-                  <Text style={styles.friendName}>{friend.name}</Text>
+                  <Text style={styles.friendName}>Ben Guo</Text>
                 </View>
                 <View style={styles.friendInfo}>
-                  <Text style={styles.friendInfo}>{friend}</Text>
+                  <Text style={styles.friendName}>{friend}</Text>
                 </View>
               </View>
               ))}
@@ -144,11 +144,18 @@ const styles = StyleSheet.create({
     friendName: {
       color: "#465306",
       left: 0,
-      top: 10,
       textAlign: 'center',
+      fontFamily: 'RobotoSlab_600SemiBold',
+      fontSize: 0.05 * screenWidth,
     },
     friendInfo: {
-      fontSize: 24,
+      backgroundColor: '#D2DFAF',
+      width: screenWidth * 0.6,
+      height: screenHeight * 0.12,
+      left: screenWidth * 0.05,
+      borderRadius: 20,
+      alignItems: "center",
+      justifyContent: "center",
       fontFamily: 'RobotoSlab_600SemiBold',
     },
     quest: {

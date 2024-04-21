@@ -26,13 +26,16 @@ function QuestsScreen( {route} ) {
             trails: {
               trail1: route.params.questList[1],
               desc1: route.params.questList[4],
-              coor1: route.params.questList[5],
+              lat1: route.params.questList[5],
+              lon1: route.params.questList[6],
               trail2: route.params.questList[2],
-              desc2: route.params.questList[6],
-              coor2: route.params.questList[7],
+              desc2: route.params.questList[7],
+              lat2: route.params.questList[8],
+              lon2: route.params.questList[9],
               trail3: route.params.questList[3],
-              desc3: route.params.questList[8],
-              coor3: route.params.questList[9],
+              desc3: route.params.questList[10],
+              lat3: route.params.questList[11],
+              lon3: route.params.questList[12],
             }
       };
       const userEmail = userData.email;
@@ -72,7 +75,7 @@ function QuestsScreen( {route} ) {
                   <TouchableOpacity onPress={() => navigation.navigate('Quest', { quest: quest})}>
                     <Text style={styles.cardText}>{quest.questName}</Text>
                     <Text style={styles.cardTextQuestNum}>{`1. ${quest.trails.trail1}\n2. ${quest.trails.trail2}\n3. ${quest.trails.trail3}`}</Text>
-                    <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+                    <View style={{ alignItems: 'center', justifyContent: 'center', paddingTop: 30 }}>
                     <CircularProgress
                       value={Math.floor(Math.random() * 101)}
                       radius={70}
@@ -187,7 +190,7 @@ const styles = StyleSheet.create({
       borderRadius: 10,
       flexDirection: 'column',
       width: 0.9 * screenWidth,
-      height: screenHeight * 0.38,
+      height: screenHeight * 0.45,
     },
     cardTextQuestNum: {
       color: "#4CAF50",

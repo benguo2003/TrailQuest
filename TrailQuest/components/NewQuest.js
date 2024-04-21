@@ -31,17 +31,21 @@ function NewQuest() {
       return;
     }
     const trails = await fetchData();
+    
     const names = Object.values(trails).map(trail => trail.name).join(', ');
     const temp_names = Object.values(trails).map(trail => trail.name);
     const descriptions = Object.values(trails).map(trail => trail.description);
-    const coordinates = Object.values(trails).map(trail => trail.coordinates);
+    const latitudes = Object.values(trails).map(trail => trail.lat);
+    const longitudes = Object.values(trails).map(trail => trail.lon);
     const quest_list = await runPrompt(names, equipment);
     const trails_obj = [];
+    console.log(latitudes);
     for (let i = 0; i < temp_names.length; i++) {
       const trail = {
         name: temp_names[i],
         description: descriptions[i],
-        coordinate: coordinates[i]
+        latitude: latitudes[i],
+        latitude: longitudes[i],
       };
       trails_obj.push(trail);
     }
@@ -49,7 +53,8 @@ function NewQuest() {
       for (let j = 0; j < trails_obj.length; j++) {
         if (quest_list[i] === trails_obj[j].name) {
           quest_list.push(descriptions[j]);
-          quest_list.push(coordinates[j]);
+          quest_list.push(latitudes[j]);
+          quest_list.push(longitudes[j]);
         }
       }
     }
