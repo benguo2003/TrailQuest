@@ -1,6 +1,7 @@
-import React from 'react';
-import { View, StatusBar, Image, TouchableOpacity, Text, StyleSheet, TextInput, Dimensions } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import React, { useEffect, useRef } from 'react';
+import { View, StatusBar, Image, TextInput, StyleSheet, Dimensions, Text } from 'react-native';
+import { useNavigation, useIsFocused} from '@react-navigation/native';
+import Navbar from './Navbar'; // Import Navbar
 
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
@@ -13,30 +14,16 @@ function Home() {
       <StatusBar barStyle="dark-content" />
       <View style={styles.header}>
         <View style={styles.logoContainer}>
-          <Image source={require('../assets/trailQuestWords.png')} style={styles.titleImage} />
+          <Text style={styles.logoText}>Home</Text>          
           <Image source={require('../assets/trailQuestCompass.png')} style={styles.logoImage} /> 
         </View>
-      </View>
-      <View style={styles.nav}>
-        <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-          <Text style={styles.navItem}>Home</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Quests')}>
-          <Text style={styles.navItem}>Quests</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
-          <Text style={styles.navItem}>Profile</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Friends')}>
-          <Text style={styles.navItem}>Friends</Text>
-        </TouchableOpacity>
       </View>
       <View style={styles.main}>
         <View style={styles.searchBox}>
           <TextInput style={styles.input} placeholder="Search for a trail..." />
         </View>
-        {/* Rest of your code */}
       </View>
+      <Navbar navigation={navigation}/>
     </View>
   );
 }
@@ -50,20 +37,11 @@ const styles = StyleSheet.create({
     header: {
       backgroundColor: '#F7FEDB',
       alignItems: 'center',
-      padding: screenHeight * 0.026,
+      padding: screenHeight * 0.02,
     },
     headerText: {
       color: 'white',
       fontSize: 20,
-    },
-    nav: {
-      flexDirection: 'row',
-      justifyContent: 'space-around',
-      padding: 20,
-      backgroundColor: '#D2DFAF',
-    },
-    navItem: {
-      color: 'black',
     },
     main: {
       flex: 1,
@@ -84,19 +62,20 @@ const styles = StyleSheet.create({
       flexDirection: 'row',
       justifyContent: 'center',
       alignItems: 'center',
-
     },
     logoImage: {
       width: screenWidth * 0.045,
       height: screenHeight * 0.045,
       resizeMode: 'contain',
-      marginLeft: screenWidth * 0.009, // Same width as the logoImage
-      top: -17
+      marginRight: screenWidth * 0.07, // Same width as the logoImage
+      top: -12
     },
-    titleImage: {
-      width: screenWidth * 0.62,
-      aspectRatio: 494 / 101,
-      alignItems: 'center',
+    logoText: {
+      color: '#465306',
+      fontSize: 45,
+      textAlign: 'center',
+      paddingLeft: screenWidth * 0.12,
+      fontFamily: 'RobotoSlab_600SemiBold',
     },
 });
 

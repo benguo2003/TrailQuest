@@ -2,12 +2,22 @@ import React from 'react';
 import { View, StatusBar, Image, TouchableOpacity, Text, StyleSheet, TextInput, Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import AwesomeButton from "react-native-really-awesome-button";
+import Navbar from './Navbar'; // Import Navbar
+import { useFonts, RobotoSlab_600SemiBold } from '@expo-google-fonts/roboto-slab';
 
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
 
 function ProfileScreen() {
   const navigation = useNavigation();
+
+  let [fontsLoaded, fontError] = useFonts({
+    RobotoSlab_600SemiBold,
+  });
+
+  if (!fontsLoaded && !fontError) {
+    return null;
+  }
 
   return (
     <View style={styles.container}>
@@ -17,20 +27,6 @@ function ProfileScreen() {
           <Text style={styles.logoText}>Profile</Text>
           <Image source={require('../assets/trailQuestCompass.png')} style={styles.logoImage} /> 
         </View>
-      </View>
-      <View style={styles.nav}>
-        <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-          <Text style={styles.navItem}>Home</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Quests')}>
-          <Text style={styles.navItem}>Quests</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
-          <Text style={styles.navItem}>Profile</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Friends')}>
-          <Text style={styles.navItem}>Friends</Text>
-        </TouchableOpacity>
       </View>
       <View style={styles.main}>
         <View style={styles.searchBox}>
@@ -52,6 +48,7 @@ function ProfileScreen() {
           See Trail Map
         </AwesomeButton>
       </View>
+      <Navbar navigation={navigation}/>
     </View>
   );
 }
@@ -112,6 +109,7 @@ const styles = StyleSheet.create({
       fontSize: 45,
       textAlign: 'center',
       paddingLeft: screenWidth * 0.12, // Same width as the logoImage
+      fontFamily: 'RobotoSlab_600SemiBold',
     },
 });
 
