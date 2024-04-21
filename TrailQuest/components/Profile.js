@@ -1,11 +1,18 @@
-import React, { useState, useContext } from 'react';
-import { View, StatusBar, Image, TouchableOpacity, Text, StyleSheet, TextInput, Dimensions } from 'react-native';
+import React, { useState, useContext, useEffect } from 'react';
+import { View, StatusBar, Image, TouchableOpacity, Text, StyleSheet, TextInput, Dimensions, Platform } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import AwesomeButton from "react-native-really-awesome-button";
 import Navbar from './Navbar'; // Import Navbar
 import { useFonts, RobotoSlab_600SemiBold } from '@expo-google-fonts/roboto-slab';
 import { ScreenHeight, ScreenWidth } from 'react-native-elements/dist/helpers';
 import * as ImagePicker from 'expo-image-picker';
+import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+//import * as Progress from 'react-native-progress';
+import {FIREBASE_DB, STORAGE} from '../backend/FirebaseConfig.ts';
+import { getFirestore, collection, query, where, getDocs, updateDoc, doc } from "firebase/firestore";
+import * as FileSystem from 'expo-file-system';
+
+
 import { UserContext } from '../backend/UserContext'; // Import your UserContext.js file
 
 const screenWidth = Dimensions.get('window').width;
@@ -13,31 +20,86 @@ const screenHeight = Dimensions.get('window').height;
 
 function ProfileScreen() {
   const navigation = useNavigation();
-  const { userData } = useContext(UserContext);
-  const [profileImage, setProfileImage] = useState(null);
+  const { userData, setUserData } = useContext(UserContext);
+  const [image, setImage] = useState(null);
+  const [uploading, setUploading] = useState(false);
+  const [transferred, setTransferred] = useState(0);
+  const db = getFirestore();
+
+  useEffect(() => {
+    (async () => {
+      if (Platform.OS !== 'web') {
+        const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (status !== 'granted') {
+          alert('Sorry, we need camera roll permissions to make this work!');
+        }
+      }
+    })();
+  }, []);
 
   let [fontsLoaded, fontError] = useFonts({
     RobotoSlab_600SemiBold,
   });
+  if (!fontsLoaded && !fontError) {
+    return null;
+  }
 
-  const pickImage = async () => {
+  const selectImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
     });
 
-    if (!result.cancelled) {
-      setProfileImage(result.uri);
-      // Now you can send the image URI to your backend and store it in the database
-      // Example: sendImageToDatabase(result.uri);
+    if (result.assets && result.assets[0] && result.assets[0].uri) {
+      const uri = result.assets[0].uri;
+      setImage(uri);
+      uploadImage(uri);
     }
   };
-
-  if (!fontsLoaded && !fontError) {
-    return null;
-  }
+  
+  const uploadImage = async (uri) => {
+    try {
+      const response = await fetch(uri);
+      const blob = await response.blob();
+  
+      // Check if userData and userData.email is not null or undefined
+      if (!userData || !userData.email) {
+        console.error("Error: User data or user email is missing");
+        return;
+      }
+  
+      var storageRef = ref(STORAGE, `my-image-${userData.email}`);
+      console.log(storageRef);
+      const uploadTask = uploadBytesResumable(storageRef, blob);
+  
+      uploadTask.on('state_changed', 
+        (snapshot) => {
+          // You can use this function to monitor the upload progress
+        }, 
+        (error) => {
+          console.error("Error uploading image: ", error);
+        }, 
+        async () => {
+          try {
+            const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+            console.log('File available at', downloadURL);
+            setImage(downloadURL);
+            setUserData({ ...userData, profilePic: downloadURL });
+  
+            const docRef = doc(FIREBASE_DB, "users", userData.email);
+            await updateDoc(docRef, { profilePic: downloadURL });
+            console.log("Image upload successful!");
+          } catch (error) {
+            console.error("Error getting download URL: ", error);
+          }
+        }
+      );
+    } catch (error) {
+      console.error("Error uploading image: ", error);
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -49,10 +111,10 @@ function ProfileScreen() {
         </View>
       </View>
       <View style={styles.main}>
-      {profileImage && <Image source={{ uri: profileImage }} style={styles.profileIcon} />}
-      <Image source={profileImage ? { uri: profileImage } : require('../assets/profileIcon.png')} style={styles.profileIcon} />
+      
+      <Image source={userData?.profilePic ? { uri: userData.profilePic } : require('../assets/profileIcon.png')} style={styles.profileIcon} />
         <View style={styles.upload}>
-            <TouchableOpacity onPress={pickImage} style={styles.upload}>
+            <TouchableOpacity onPress={selectImage} style={styles.upload}>
               <Text style={styles.navItem}>Upload Photo</Text>
             </TouchableOpacity>
         </View>
