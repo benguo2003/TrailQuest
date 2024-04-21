@@ -7,10 +7,12 @@ import Quests from './components/Quests'; // Import your Quests screen
 import Profile from './components/Profile'; // Import your Profile screen
 import Start from './components/Start'; // Import your Start screen
 import SignUp from './components/SignUp';
+import NewQuest from './components/NewQuest';
 
 const Stack = createStackNavigator();
 
 function AppNavigator() {
+
   return (
     
     <Stack.Navigator 
@@ -59,6 +61,13 @@ function AppNavigator() {
         component={SignUp} 
         options={{ headerShown: false, cardStyleInterpolator: CardStyleInterpolators.forFadeFromBottomAndroid 
       }}/>
+
+      <Stack.Screen 
+        name="NewQuest" 
+        component={NewQuest} 
+        options={{ headerShown: false, cardStyleInterpolator: CardStyleInterpolators.forFadeFromBottomAndroid 
+      }}/>
+
     </Stack.Navigator>
   );
 }

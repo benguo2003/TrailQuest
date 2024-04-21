@@ -1,9 +1,17 @@
-import React from 'react';
-import { View, TextInput, Image, StyleSheet, TouchableOpacity, Text, KeyboardAvoidingView, Platform} from 'react-native';
+import React, { useState } from 'react';
+import { View, TextInput, Image, StyleSheet, TouchableOpacity, Text, KeyboardAvoidingView, Platform, ActivityIndicator} from 'react-native';
 import AwesomeButton from "react-native-really-awesome-button";
 import { useFonts, RobotoSlab_600SemiBold } from '@expo-google-fonts/roboto-slab';
+import { FIREBASE_AUTH } from '../backend/FirebaseConfig.ts';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+
 
 export default function SignIn({ navigation }) {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const auth = FIREBASE_AUTH;
+  
   let [fontsLoaded, fontError] = useFonts({
     RobotoSlab_600SemiBold,
   });
@@ -11,6 +19,20 @@ export default function SignIn({ navigation }) {
   if (!fontsLoaded && !fontError) {
     return null;
   }
+
+  const logIn = async () => {
+    setLoading(true);
+    try {
+      const response = await signInWithEmailAndPassword(auth, email, password);
+      console.log(response);
+      navigation.navigate('Home');
+    } catch (error) {
+      console.log(error);
+      alert('Invalid email or password! Try again!')
+    }
+    setLoading(false);
+  }
+
 
   return (
     <KeyboardAvoidingView 
@@ -23,31 +45,37 @@ export default function SignIn({ navigation }) {
           <Image source={require('../assets/trailQuestLogoNoBG.png')} style={styles.logoImage} />
         </View>
         <View style={styles.formContainer}>
-          <TextInput placeholder="Email" style={styles.input} autoCorrect={false} textContentType='oneTimeCode'/>
-          <TextInput placeholder="Password" secureTextEntry style={styles.input} autoCorrect={false} textContentType='oneTimeCode'/>
-          <AwesomeButton
-            type="primary"
-            onPress={() => navigation.navigate('Home')}
-            width={100} // Adjust as needed
-            height={50} // Adjust as needed
-            textSize={18} // Adjust as needed
-            backgroundColor="#4CAF50"
-            backgroundDarker="#52a934"
-            backgroundActive="#7cbe2d"
-            backgroundShadow="#3f8228"
-            backgroundProgress="#89cf35"
-            borderColor="#5bbd3a"
-            textColor="#FFFFFF"
-            springRelease
-          >
-            Log In
-          </AwesomeButton>
+          <TextInput value={email} placeholder="Enter Email" style={styles.input} autoCorrect={false} autoCapitalize="none" textContentType='oneTimeCode'
+            onChangeText={(text) => setEmail(text)}/>
+          <TextInput value={password} placeholder="Enter Password" secureTextEntry={true} style={styles.input} autoCapitalize="none" autoCorrect={false} textContentType='oneTimeCode'
+            onChangeText={(text) => setPassword(text)}/>
 
-          <View style={styles.SignUp}>
-            <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
-              <Text style={styles.navItem}>Sign Up</Text>
-            </TouchableOpacity>
-          </View>
+          { loading ? <ActivityIndicator size="large" color="#4CAF50" /> :
+            <>
+              <AwesomeButton
+                type="primary"
+                onPress={logIn}
+                width={100} // Adjust as needed
+                height={50} // Adjust as needed
+                textSize={18} // Adjust as needed
+                backgroundColor="#4CAF50"
+                backgroundDarker="#52a934"
+                backgroundActive="#7cbe2d"
+                backgroundShadow="#3f8228"
+                backgroundProgress="#89cf35"
+                borderColor="#5bbd3a"
+                textColor="#FFFFFF"
+                springRelease
+              >
+                Log In
+              </AwesomeButton>
+            </>}
+            <View style={styles.SignUp}>
+                <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
+                  <Text style={styles.navItem}>Sign Up</Text>
+                </TouchableOpacity>
+            </View>
+
         </View>
       </View>
     </KeyboardAvoidingView>

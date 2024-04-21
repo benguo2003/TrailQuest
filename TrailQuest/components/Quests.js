@@ -1,10 +1,9 @@
-import React from 'react';
-import { View, StatusBar, Image, TouchableOpacity, Text, StyleSheet, TextInput, Dimensions} from 'react-native';
+import React, { useState, useEffect }from 'react';
+import { View, StatusBar, Image, Text, StyleSheet, Dimensions, ActivityIndicator, ScrollView} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import AwesomeButton from "react-native-really-awesome-button";
 import Navbar from './Navbar'; // Import Navbar
 import { useFonts, RobotoSlab_600SemiBold } from '@expo-google-fonts/roboto-slab';
-import { ScrollView } from 'react-native';
 
 // Get the screen's width and height
 const screenWidth = Dimensions.get('window').width;
@@ -12,6 +11,7 @@ const screenHeight = Dimensions.get('window').height;
 
 function QuestsScreen() {
   const navigation = useNavigation();
+  const [isLoading, setIsLoading] = useState(true);
 
   const quests = [
     {
@@ -40,33 +40,48 @@ function QuestsScreen() {
     RobotoSlab_600SemiBold,
   });
 
+  useEffect(() => {
+    const prefetchImages = quests.map(quest => Image.prefetch(quest.image));
+    Promise.all(prefetchImages)
+      .then(() => setIsLoading(false))
+      .catch(error => console.log(error));
+  }, []);
+
   if (!fontsLoaded && !fontError) {
     return null;
   }
+
   return (
-    <View style={styles.container}>
-      <StatusBar barStyle="dark-content" />
-      <View style={styles.header}>
-        <View style={styles.logoContainer}>
-          <Text style={styles.logoText}>Quests</Text>
-          <Image source={require('../assets/trailQuestCompass.png')} style={styles.logoImage} />
-        </View>
+    isLoading ? (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size="large" color="#006400" />
       </View>
-      <View style={styles.main}>
-        <View style={{flex: 1}}>
-          <ScrollView contentContainerStyle={styles.cardContainer}>
-            {quests.map((quest, index) => (
-              <View key={index} style={styles.card}>
-                <Text style={styles.cardTextQuestNum}>Quest {index + 1}</Text>
-                <Image source={{ uri: quest.image }} style={styles.image} />
-                <Text style = {styles.cardText}>{quest.title}</Text>
-              </View>
-            ))}
-          </ScrollView>
+    ) : (
+      <View style={styles.container}>
+        <StatusBar barStyle="dark-content" />
+        <View style={styles.header}>
+          <View style={styles.logoContainer}>
+            <Text style={styles.logoText}>Quests</Text>
+            <Image source={require('../assets/trailQuestCompass.png')} style={styles.logoImage} />
+          </View>
         </View>
+        <View style={styles.main}>
+          <View style={{flex: 1}}>
+            <ScrollView contentContainerStyle={styles.cardContainer}>
+              {quests.map((quest, index) => (
+                <View key={index} style={styles.card}>
+                  <Text style={styles.cardTextQuestNum}>Quest {index + 1}</Text>
+                  <Image source={{ uri: quest.image }} style={styles.image}/>
+                  <Text style = {styles.cardText}>{quest.title}</Text>
+                </View>
+              ))}
+            </ScrollView>
+          </View>
 
         <View style={styles.buttonContainer}>
           <AwesomeButton
+            type="primary"
+            onPress={() => navigation.navigate('NewQuest')}
             width={60}
             height={60}
             borderRadius={30}
@@ -79,6 +94,7 @@ function QuestsScreen() {
       
       <Navbar navigation={navigation}/>
     </View>
+    )
   );
 }
 
