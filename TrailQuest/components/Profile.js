@@ -1,20 +1,37 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, StatusBar, Image, TouchableOpacity, Text, StyleSheet, TextInput, Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import AwesomeButton from "react-native-really-awesome-button";
 import Navbar from './Navbar'; // Import Navbar
 import { useFonts, RobotoSlab_600SemiBold } from '@expo-google-fonts/roboto-slab';
 import { ScreenHeight, ScreenWidth } from 'react-native-elements/dist/helpers';
+import * as ImagePicker from 'expo-image-picker';
 
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
 
 function ProfileScreen() {
   const navigation = useNavigation();
+  const [profileImage, setProfileImage] = useState(null);
 
   let [fontsLoaded, fontError] = useFonts({
     RobotoSlab_600SemiBold,
   });
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.cancelled) {
+      setProfileImage(result.uri);
+      // Now you can send the image URI to your backend and store it in the database
+      // Example: sendImageToDatabase(result.uri);
+    }
+  };
 
   if (!fontsLoaded && !fontError) {
     return null;
@@ -30,7 +47,13 @@ function ProfileScreen() {
         </View>
       </View>
       <View style={styles.main}>
-        <Image source={require('../assets/profileIcon.png')} style={styles.profileIcon} />
+      <Image source={profileImage ? { uri: profileImage } : require('../assets/profileIcon.png')} style={styles.profileIcon} />
+        <View style={styles.upload}>
+        <TouchableOpacity onPress={pickImage} style={styles.upload}>
+              <Text style={styles.navItem}>Upload Photo</Text>
+            </TouchableOpacity>
+            {profileImage && <Image source={{ uri: profileImage }} style={styles.profileIcon} />}
+        </View>
         <View style={styles.container2}>
           <View style={styles.profileContainer}>
             <Text style={styles.containerText}>Name:</Text>
@@ -42,7 +65,7 @@ function ProfileScreen() {
             <Text style={styles.containerText}>Abby White</Text>
             <Text style={styles.containerText}>25</Text>
             <Text style={styles.containerText}>6'1</Text>
-            <Text style={styles.containerText}>Large backpack, moisture-wicking shirt, fleece pants and jacket</Text>
+            <Text style={styles.containerText} numberOfLines={5}>Large backpack, moisture-wicking shirt, fleece pants and jacket</Text>
           </View>
         </View>
         <View style={styles.buttons}>
@@ -102,7 +125,6 @@ const styles = StyleSheet.create({
       flexDirection: "row",
       alignItems: "center",
       justifyContent: "center",
-      padding: ScreenHeight * 0.08,
     },
     container2: {
       flexDirection: "row",
@@ -115,6 +137,11 @@ const styles = StyleSheet.create({
       marginLeft: ScreenWidth * 0.23,
       top: ScreenHeight * 0.02,
     },
+    upload: {
+      justifyContent: 'center',
+      alignItems: 'center',
+      paddingTop: screenHeight * 0.02,
+    },
     profileContainer: {
       marginLeft: screenWidth * 0.03,
     },
@@ -123,7 +150,7 @@ const styles = StyleSheet.create({
       marginLeft: screenWidth * 0.03,
     },
     containerText:{
-      fontSize: 22,
+      fontSize: 18,
       padding: screenHeight * 0.01,
     },
     logoContainer: {
