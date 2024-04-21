@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, TextInput, Image, StyleSheet, TouchableOpacity, Text } from 'react-native';
+import { View, TextInput, Button, Image, StyleSheet } from 'react-native';
 import AwesomeButton from "react-native-really-awesome-button";
 
 export default function SignIn({ navigation }) {
@@ -7,15 +7,16 @@ export default function SignIn({ navigation }) {
     <View style={styles.container}>
       <View style={styles.logoContainer}>
         <Image source={require('../assets/trailQuestLogoNoBG.png')} style={styles.logoImage} />
-      </View>
+      </View>      
       <View style={styles.formContainer}>
-        <TextInput placeholder="Email" style={styles.input} />
-        <TextInput placeholder="Password" secureTextEntry style={styles.input} />
+        <TextInput placeholder="Name" style={styles.input} />
+        <TextInput placeholder="Username" secureTextEntry style={styles.input} />
+        <TextInput placeholder="password" secureTextEntry style={styles.input} />
 
         <AwesomeButton
           type="primary"
           onPress={() => navigation.navigate('Home')}
-          width={100} // Adjust as needed
+          width={200} // Adjust as needed
           height={50} // Adjust as needed
           textSize={18} // Adjust as needed
           backgroundColor="#D2DFAF"
@@ -24,14 +25,10 @@ export default function SignIn({ navigation }) {
           textColor="#FFFFFF"
           springRelease
         >
-          Log In
+          Create My Account
         </AwesomeButton>
-
-        <View style={styles.signup}>
-          <TouchableOpacity onPress={() => navigation.navigate('signup')}>
-            <Text style={styles.navItem}>Sign Up</Text>
-          </TouchableOpacity>
-        </View>
+       
+      
       </View>
     </View>
   );
@@ -42,26 +39,22 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#F7FEDB',
     justifyContent: 'center',
-  },
+  },  
   input: {
-    height: 40,
-    width: 300,
+    height: 40, // Adjust as needed
+    width: 300, // Adjust as needed
     borderColor: '#4CAF50',
-    backgroundColor: "white",
     borderWidth: 1,
     borderRadius: 10,
-    padding: 10,
+    backgroundColor: "white",
+    padding: 20,
     marginBottom: 30,
   },
-  signup: {
-   padding: 15,
-  },
-
   logoImage: {
-    width: 340,
-    height: 340,
-    top: -10,  // Adjusted to reduce the negative top value
-    resizeMode: 'contain',
+    width: 340, // Adjust as needed
+    height: 200,
+    top: -30, // Adjust as needed
+    resizeMode: 'contain', // This ensures the image aspect ratio is preserved
   },
   logoContainer: {
     justifyContent: 'center',
@@ -70,8 +63,6 @@ const styles = StyleSheet.create({
   formContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    top: -70,  // Adjust this value as needed to lower the position
-    marginTop: -10,  // Added to bring down the form elements
+    top: -10,
   },
- 
 });

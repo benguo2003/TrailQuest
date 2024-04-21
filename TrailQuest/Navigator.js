@@ -6,6 +6,8 @@ import Friends from './components/Friends'; // Import your Trails screen
 import Quests from './components/Quests'; // Import your Quests screen
 import Profile from './components/Profile'; // Import your Profile screen
 import Start from './components/Start'; // Import your Start screen
+import signup from './components/signup';
+
 
 const Stack = createStackNavigator();
 
@@ -18,6 +20,7 @@ function AppNavigator() {
       <Stack.Screen name="Quests" component={Quests} options={{ headerShown: false }}/>
       <Stack.Screen name="Profile" component={Profile} options={{ headerShown: false }}/>
       <Stack.Screen name="Start" component={Start} options={{ headerShown: false }}/>
+      <Stack.Screen name="signup" component={signup} options={{ headerShown: false }}/>
     </Stack.Navigator>
   );
 }
