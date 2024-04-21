@@ -30,11 +30,10 @@ export default function SignUserUp({ navigation }) {
       const user = response.user;
       if (user) {
         const userDocRef = doc(FIREBASE_DB, "users", lowerCaseEmail);
-        await setDoc(userDocRef, { name: name, email: lowerCaseEmail , questData: []});
+        await setDoc(userDocRef, { name: name, email: lowerCaseEmail , questData: [], friends: []});
       }
       navigation.navigate('SignIn');
       console.log(response);
-      alert('Check your emails!');
     }
     catch (error) {
       console.log(error);

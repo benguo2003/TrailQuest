@@ -1,22 +1,23 @@
-import React, { useState } from 'react';
-import { View, StatusBar, Image, TouchableOpacity, Text, StyleSheet, TextInput, Dimensions, KeyboardAvoidingView, Platform } from 'react-native';
-import Slider from '@react-native-community/slider';
+import React, { useState, useContext } from 'react';
+import { View, StatusBar, Image, TouchableOpacity, Text, StyleSheet, TextInput, Dimensions, KeyboardAvoidingView, Platform, ActivityIndicator} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import AwesomeButton from "react-native-really-awesome-button";
 import Navbar from './Navbar'; // Import Navbar
 import { useFonts, RobotoSlab_600SemiBold } from '@expo-google-fonts/roboto-slab';
-import { fetchData } from '../backend/trails';
-import { FIREBASE_AUTH, FIREBASE_DB } from '../backend/FirebaseConfig.ts';
-import { doc, getDoc } from "firebase/firestore";
+import { FIREBASE_DB } from '../backend/FirebaseConfig.ts';
 import { UserContext } from '../backend/UserContext';
+import { doc, getDoc } from "firebase/firestore";
+import { updateDocument2 } from '../backend/updateDoc';
 
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
 
 function NewFriends() {
+  const { userData, setUserData} = useContext(UserContext);
+  const [newFriendData, setNewFriendData] = useState(); // Add userData to newFriendData
   const navigation = useNavigation();
-  const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
+  const [showFriend, setshowFriend] = useState(false);
 
   let [fontsLoaded, fontError] = useFonts({
     RobotoSlab_600SemiBold,
@@ -26,27 +27,44 @@ function NewFriends() {
     return null;
   }
 
-  const Add = async () => {
-    setLoading(true);
-    try {
+  const handleAdd = async () => {
       const lowerCaseEmail = email.toLowerCase();
-      
       const userDocRef = doc(FIREBASE_DB, "users", lowerCaseEmail);
       const userDocSnap = await getDoc(userDocRef);
-
       if (userDocSnap.exists()) {
-        const userData = userDocSnap.data();
-        console.log("Friend added!");
-      } else {
-        console.log("Hmm, that's odd. No such user exists!");
+        const tempData = userDocSnap.data();
+        if (userData.friends.length === 0) {
+          setNewFriendData(tempData);
+          setshowFriend(true);
+          updateDocument2('users', userData.email, tempData.email).then(() => {
+            setUserData({
+              friends: tempData.email
+            });
+          });
+        }
+        else if(userData.email === tempData.email) {
+          alert('You cannot add yourself as a friend!')
+          setshowFriend(false);
+        }
+        else if (userData.friends.includes(tempData.email)) {
+          alert('You are already friends with this user!')
+          setshowFriend(false);
+        }
+        else {
+          setNewFriendData(tempData);
+          setshowFriend(true);
+          updateDocument2('users', userData.email, tempData.email).then(() => {
+            setUserData({
+              ...userData,
+              friends: [...userData.friends, tempData.email]
+            });
+          });
+        }
+      } 
+      else {
+        alert('Invalid email! Try again!')
       }
-    } catch (error) {
-      console.log(error);
-      alert('Invalid email or password! Try again!')
-    }
-    setLoading(false);
   }
-
 
   return (
     <View style={styles.container}>
@@ -62,18 +80,13 @@ function NewFriends() {
             behavior={Platform.OS === "ios" ? "padding" : "height"} 
             enabled
             >
-      <View style={styles.main}>
-        <View style={{flex:1}}>
-            
-            <Text style={{fontSize:18, fontFamily: 'RobotoSlab_600SemiBold', padding: screenWidth * 0.02}}>
-              Search by email:</Text>
-            <View style={{justifyContent: 'center', alignItems: 'center'}}>
-                <TextInput placeholder="Email" style={styles.input} autoCorrect={false} textContentType='oneTimeCode' textAlignVertical="top"/>
-
-            </View>
-            <View style={{justifyContent: 'center', alignItems: 'center'}}>
+          <View style={styles.formContainer}>
+              <Text style={{fontSize:18, fontFamily: 'RobotoSlab_600SemiBold', padding: screenWidth * 0.02}}>
+                Search by email:
+              </Text>
+              <TextInput value={email} onChangeText={(text) => setEmail(text)} style={styles.input} placeholder="Enter Email" autoCorrect={false} autoCapitalize="none" textContentType='oneTimeCode'/>
                 <AwesomeButton
-                    onPress={Add}
+                    onPress={handleAdd}
                     width={screenWidth * 0.5} // Adjust as needed
                     height={50} // Adjust as needed
                     textSize={20} // Adjust as needed
@@ -88,9 +101,12 @@ function NewFriends() {
                     >
                     + Add New Friend
                 </AwesomeButton>
-            </View>
-        </View>
-      </View>
+                {showFriend ?               
+                <Text style={styles.addedFriend}>
+                  {newFriendData.name} has been added as a friend!
+                </Text> 
+                : null}
+          </View>
       </KeyboardAvoidingView>
       <Navbar navigation={navigation}/>
     </View>
@@ -122,18 +138,18 @@ const styles = StyleSheet.create({
     },
     main: {
       flex: 1,
-      padding: 12,
+      padding: 40,
       backgroundColor: '#FFFFFF',
     },
     input: {
-        width: screenWidth * 0.85, 
-        height: screenHeight * 0.05,
-        borderColor: '#4CAF50',
-        backgroundColor: "white",
-        borderWidth: 1,
-        borderRadius: 10,
-        padding: 15,
-        marginBottom: 18,
+      height: 40,
+      width: 300,
+      borderColor: '#4CAF50',
+      backgroundColor: "white",
+      borderWidth: 1,
+      borderRadius: 10,
+      padding: 10,
+      marginBottom: 30,
     },
     logoContainer: {
       flexDirection: 'row',
@@ -155,6 +171,18 @@ const styles = StyleSheet.create({
       paddingLeft: screenWidth * 0.12, // Same width as the logoImage
       fontFamily: 'RobotoSlab_600SemiBold',
     },
+    formContainer: {
+      flex: 1,
+      justifyContent: 'top',
+      alignItems: 'center',
+    },
+    addedFriend: {
+      fontSize:18,
+      fontFamily: 'RobotoSlab_600SemiBold',
+      padding: 30,
+      textAlign: 'center',
+      alignSelf: 'center',
+    }
 });
 
 export default NewFriends;
