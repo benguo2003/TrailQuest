@@ -154,9 +154,9 @@ const styles = StyleSheet.create({
     },
     friendInfo: {
       backgroundColor: '#D2DFAF',
-      width: screenWidth * 0.58,
+      width: screenWidth * 0.6,
       height: screenHeight * 0.12,
-      left: screenWidth * 0.12,
+      left: screenWidth * 0.1,
       borderRadius: 20,
       alignItems: "center",
       justifyContent: "center",
@@ -164,12 +164,12 @@ const styles = StyleSheet.create({
     quest: {
       padding: screenWidth * 0.005,
       color: "#465306",
-      fontSize: 25,
+      fontSize: screenHeight * 0.03,
     },
     percentage: {
       padding: screenWidth * 0.005,
       color: "white",
-      fontSize: 40,
+      fontSize: screenHeight * 0.04
     }
 });
 

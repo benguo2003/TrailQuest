@@ -36,7 +36,6 @@ export default function SignIn({ navigation }) {
           backgroundShadow="#2E7D32"
           textColor="#FFFFFF"
           springRelease
-          progress
         >
           Sign Up
         </AwesomeButton>
