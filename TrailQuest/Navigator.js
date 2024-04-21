@@ -90,7 +90,9 @@ function AppNavigator() {
       <Stack.Screen 
         name="NewFriends" 
         component={NewFriends} 
-        options={{ headerShown: false, cardStyleInterpolator: CardStyleInterpolators.forFadeFromBottomAndroid 
+        screenOptions={{
+          animation: 'fade',
+          headerShown: false,
       }}/>
 
     </Stack.Navigator>

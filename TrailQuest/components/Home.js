@@ -31,7 +31,7 @@ function Home() {
       </View>
       <View style={styles.main}>
         <View style={styles.profileContainer}>
-          <Image source={require('../assets/profileIcon.png')} style={styles.profileIcon} />
+        <Image source={userData?.profilePic ? { uri: userData.profilePic } : require('../assets/profileIcon.png')} style={styles.profileIcon} />
           <Text style={{padding: screenHeight * 0.01}}>{userData?.name}</Text>
         </View>
         <View style={styles.outerQuestContainer}>
