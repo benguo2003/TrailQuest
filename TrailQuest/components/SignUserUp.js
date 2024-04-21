@@ -4,6 +4,9 @@ import AwesomeButton from "react-native-really-awesome-button";
 import { useFonts, RobotoSlab_600SemiBold } from '@expo-google-fonts/roboto-slab';
 import { FIREBASE_AUTH } from '../backend/FirebaseConfig.ts';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { doc, setDoc } from "firebase/firestore"; 
+import { FIREBASE_DB } from '../backend/FirebaseConfig.ts';
+
 
 export default function SignUserUp({ navigation }) {
   const [name, setName] = useState('');
@@ -22,7 +25,13 @@ export default function SignUserUp({ navigation }) {
   const signUserUp = async () => {
     setLoading(true);
     try {
+      const lowerCaseEmail = email.toLowerCase();
       const response = await createUserWithEmailAndPassword(auth, email, password);
+      const user = response.user;
+      if (user) {
+        const userDocRef = doc(FIREBASE_DB, "users", lowerCaseEmail);
+        await setDoc(userDocRef, { name: name, email: lowerCaseEmail });
+      }
       navigation.navigate('SignIn');
       console.log(response);
       alert('Check your emails!');

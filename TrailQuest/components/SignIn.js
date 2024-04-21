@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { View, TextInput, Image, StyleSheet, TouchableOpacity, Text, KeyboardAvoidingView, Platform, ActivityIndicator} from 'react-native';
 import AwesomeButton from "react-native-really-awesome-button";
 import { useFonts, RobotoSlab_600SemiBold } from '@expo-google-fonts/roboto-slab';
-import { FIREBASE_AUTH } from '../backend/FirebaseConfig.ts';
+import { FIREBASE_AUTH, FIREBASE_DB } from '../backend/FirebaseConfig.ts';
 import { signInWithEmailAndPassword } from 'firebase/auth';
+import { doc, getDoc } from "firebase/firestore";
 
 
 export default function SignIn({ navigation }) {
@@ -23,9 +24,19 @@ export default function SignIn({ navigation }) {
   const logIn = async () => {
     setLoading(true);
     try {
-      const response = await signInWithEmailAndPassword(auth, email, password);
+      const lowerCaseEmail = email.toLowerCase();
+      const response = await signInWithEmailAndPassword(auth, lowerCaseEmail, password);
       console.log(response);
-      navigation.navigate('Home');
+      
+      const userDocRef = doc(FIREBASE_DB, "users", lowerCaseEmail);
+      const userDocSnap = await getDoc(userDocRef);
+
+      if (userDocSnap.exists()) {
+        const userData = userDocSnap.data();
+        navigation.navigate('Home', { userData: userData});
+      } else {
+        console.log("Hmm, that's odd. No such user exists!");
+      }
     } catch (error) {
       console.log(error);
       alert('Invalid email or password! Try again!')

@@ -8,7 +8,8 @@ import runPrompt from '../backend/chat.js';  // Import the sendMessage function
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
 
-function Home() {
+function Home({ route }) {
+  const { userData } = route.params;
   const navigation = useNavigation();
 
   const [input, setInput] = useState('');
@@ -43,6 +44,7 @@ function Home() {
       <View style={styles.main}>
         <View style={styles.profileContainer}>
           <Image source={require('../assets/profileIcon.png')} style={styles.profileIcon} />
+          <Text>{userData?.name}</Text>
         </View>
         <View style={styles.outerQuestContainer}>
           <View style={styles.questContainer}>
@@ -90,6 +92,7 @@ const styles = StyleSheet.create({
     marginBottom: 80,
     marginTop: 10,
     position: 'relative',
+    flexDirection: 'column',
   },
   profileIcon: {
     height: '100%',
