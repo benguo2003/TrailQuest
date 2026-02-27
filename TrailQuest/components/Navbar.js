@@ -1,6 +1,6 @@
 import { View } from 'react-native';
 import AwesomeButton from 'react-native-really-awesome-button';
-import { FontAwesome5 } from 'react-native-vector-icons';
+import { FontAwesome5 } from '@expo/vector-icons';
 import { useRoute } from '@react-navigation/native';
 
 const Navbar = ({ navigation }) => {

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { RAPIDAPI_KEY } from '@env';
 
 export const fetchData = async () => {
   const options = {
@@ -12,7 +13,7 @@ export const fetchData = async () => {
       'q-activities_activity_type_name_eq': 'hiking'
     },
     headers: {
-      'X-RapidAPI-Key': '7ac0e12b19msh8f8c89cdb0757fep1f969ajsn821a99373cff',
+      'X-RapidAPI-Key': RAPIDAPI_KEY,
       'X-RapidAPI-Host': 'trailapi-trailapi.p.rapidapi.com'
     }
   };

@@ -1,18 +1,15 @@
 import { OPENAI_API_KEY } from '@env';
 
-export const runPrompt = async (trails, gear) => {
-    const prompt = `These are my gear: ${gear}\nThis is a list of trails: ${trails}\n
-                    Please choose the best 3 trails from my list that are best suited for my gear.\n
-                    Then make a creative name that encapsulates a quest of finishing these 3 trails.\n
-                    I have very specific requirements for the output. Make sure the output is in the following format:\n
-                    I only want one single line of output, in the following format:\n
-                    "Name_of_Quest: Trail_1, Trail_2, Trail_3". Make sure the name of the\n
-                    quest has no underscores or commas, but have spaces between words and each word is a real English word.\n
-                    For example, the name of the quest should never be GreatHikingAdventure, and should instead be Great Hiking Adventure.\n
-                    In addition, please make sure each trail is separated by a comma, has no underscores in their names,\n
-                    and do not give any additional output beyond what I have requested. Please also don't label anything extra,\n
-                    just provide the output in the format I have requested. Please don't have ANY content that isn't part of the format that was specified.\n
-                    Lastly, do not include the double quotes as part of the output, they are just there to show you the format.`;
+export const runPrompt = async (gear, range) => {
+    const prompt = `I have the following hiking gear: ${gear}
+My range is ${range} miles from Los Angeles, CA.
+
+Please suggest 3 real hiking trails near Los Angeles that are suited for my gear and within my range.
+Then make a creative quest name that encapsulates finishing these 3 trails.
+
+Respond ONLY with valid JSON in this exact format, no other text:
+{"quest":"Quest Name Here","trails":[{"name":"Trail Name","description":"A short 1-sentence description","lat":34.0,"lon":-118.0},{"name":"Trail Name 2","description":"A short 1-sentence description","lat":34.0,"lon":-118.0},{"name":"Trail Name 3","description":"A short 1-sentence description","lat":34.0,"lon":-118.0}]}`;
+
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
     method: 'POST',
     headers: {
@@ -20,11 +17,11 @@ export const runPrompt = async (trails, gear) => {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      model: "gpt-3.5-turbo",
+      model: "gpt-4o-mini",
       messages: [
         {
           role: "system",
-          content: "You are a helpful assistant."
+          content: "You are a helpful hiking trail assistant. Always respond with valid JSON only."
         },
         {
           role: "user",
@@ -35,16 +32,28 @@ export const runPrompt = async (trails, gear) => {
   });
 
   if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
+    const errorBody = await response.text();
+    console.log('OpenAI error:', response.status, errorBody);
+    throw new Error(`HTTP error! status: ${response.status} - ${errorBody}`);
   }
 
   const data = await response.json();
   const answer = data['choices'][0]['message']['content'];
-  const [questName, three_trails] = answer.split(': ');
-  const trailNames = three_trails.split(', ');
-  const final_result = [questName, ...trailNames];
+  const parsed = JSON.parse(answer);
 
-  return final_result;
+  // Build the quest_list in the format the app expects:
+  // [questName, trail1, trail2, trail3, desc1, lat1, lon1, desc2, lat2, lon2, desc3, lat3, lon3]
+  const quest_list = [parsed.quest];
+  for (const trail of parsed.trails) {
+    quest_list.push(trail.name);
+  }
+  for (const trail of parsed.trails) {
+    quest_list.push(trail.description);
+    quest_list.push(trail.lat);
+    quest_list.push(trail.lon);
+  }
+
+  return quest_list;
 };
 
 export default runPrompt;

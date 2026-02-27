@@ -5,8 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import AwesomeButton from "react-native-really-awesome-button";
 import Navbar from './Navbar'; // Import Navbar
 import { useFonts, RobotoSlab_600SemiBold } from '@expo-google-fonts/roboto-slab';
-import { fetchData } from '../backend/trails';
-import runPrompt from '../backend/chat.js';  // Import the sendMessage function
+import runPrompt from '../backend/chat.js';
 
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
@@ -30,35 +29,13 @@ function NewQuest() {
       Alert.alert('Error', 'Please type your list');
       return;
     }
-    const trails = await fetchData();
-    
-    const names = Object.values(trails).map(trail => trail.name).join(', ');
-    const temp_names = Object.values(trails).map(trail => trail.name);
-    const descriptions = Object.values(trails).map(trail => trail.description);
-    const latitudes = Object.values(trails).map(trail => trail.lat);
-    const longitudes = Object.values(trails).map(trail => trail.lon);
-    const quest_list = await runPrompt(names, equipment);
-    const trails_obj = [];
-    console.log(latitudes);
-    for (let i = 0; i < temp_names.length; i++) {
-      const trail = {
-        name: temp_names[i],
-        description: descriptions[i],
-        latitude: latitudes[i],
-        latitude: longitudes[i],
-      };
-      trails_obj.push(trail);
+    try {
+      const quest_list = await runPrompt(equipment, range);
+      navigation.navigate('Quests', { questList: quest_list });
+    } catch (error) {
+      console.error(error);
+      Alert.alert('Error', 'Failed to generate quest. Please try again.');
     }
-    for (let i = 0; i < quest_list.length; i++) {
-      for (let j = 0; j < trails_obj.length; j++) {
-        if (quest_list[i] === trails_obj[j].name) {
-          quest_list.push(descriptions[j]);
-          quest_list.push(latitudes[j]);
-          quest_list.push(longitudes[j]);
-        }
-      }
-    }
-    navigation.navigate('Quests', { questList: quest_list });
   }
 
   return (
